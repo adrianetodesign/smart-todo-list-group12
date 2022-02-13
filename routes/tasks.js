@@ -43,7 +43,7 @@ module.exports = (db) => {
 
   });
 
-  router.post("/:id/delete", (req,res) => {
+  router.post("/:id/delete", (req, res) => {
     // Toggles the is_archived boolean on the entry and returns
     // the updated version
     const userID = req.cookies.userID;
@@ -75,7 +75,51 @@ module.exports = (db) => {
 
   });
 
-  router.post('/', (req, res) => {
+  router.post("/:id/", (req, res) => {
+    // update the category and/or body of a task
+    const userID = req.cookies.userID;
+    const taskID = req.params.id;
+
+    if (!userID) {
+      res.redirect('/login');
+      return;
+    }
+
+    let queryString = `
+      UPDATE tasks
+      SET `;
+    const queryParams = [userID, taskID];
+
+    const setValues = [];
+    if (req.body.body) {
+      queryParams.push(req.body.body);
+      setValues.push([`body = $${queryParams.length}`]);
+    }
+    if (req.body.category_id) {
+      queryParams.push(req.body.category_id);
+      setValues.push([`category_id = $${queryParams.length}`]);
+    }
+    queryString += setValues.join(', ');
+
+    queryString += `
+    WHERE user_id = $1
+    AND id = $2
+    RETURNING * `;
+
+    db.query(queryString, queryParams)
+      .then(data => {
+        const task = data.rows[0];
+        res.json({ task });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message});
+      });
+
+  });
+
+  router.post("/", (req, res) => {
     const userID = req.cookies.userID;
     const { body, categoryID } = req.body;
     console.log('req.body', req.body);
