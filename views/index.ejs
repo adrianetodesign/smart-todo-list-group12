@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/main.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/tasks.css" />
+    <link rel="stylesheet" href="/styles/tasks.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/new-task.css" type="text/css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -103,6 +104,14 @@
           <i class="fa-solid fa-ellipsis-vertical fa-xl"></i>
         </div>
       </article>
+    </section>
+    <section id="new-task">
+      <form method="post" action="/new" class="task-form">
+        <textarea name="text" class="task-text" placeholder="What do you need to do?"></textarea>
+        <label for="start-time">When?</label>
+        <input type="date" id="start-time" name="start-time" value="2022-01-01">
+        <button type="submit">+</button>
+      </form>
     </section>
   </body>
 </html>
