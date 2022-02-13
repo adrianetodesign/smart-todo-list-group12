@@ -8,14 +8,14 @@
   bottom: 10vw;
   left: 50%;
   transform: translate(-50%);
-  background-color: aliceblue;
+  background-color: #E5E5E5;
   form {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
     textarea {
-      background-color: aliceblue;
+      background: transparent;
       border: none;
       resize: none;
       width:50vw;
