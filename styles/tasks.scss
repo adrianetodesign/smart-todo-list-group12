@@ -1,0 +1,67 @@
+#tasks-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 90vw;
+  margin: 0 auto;
+  padding: 0.2em;
+  background: black;
+  color: white;
+  div:first-child {
+    width:15%;
+  }
+  div:nth-child(2) {
+    width:50%;
+  }
+  div:nth-child(3) {
+    width:15%;
+  }
+  div:nth-child(4) {
+    width: 10%;
+  }
+  div:nth-child(5) {
+    width: 10%;
+  }
+}
+
+#tasks-container {
+  display: flex;
+  flex-direction: column;
+  .task {
+    border: solid black;
+    width: 90vw;
+    margin: 0.5em auto;
+    padding: 0.2em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .kebab {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0 16px;
+    top: 12px;
+    i {
+      vertical-align: top;
+    }
+  }
+  div:first-child {
+    width:15%;
+  }
+  div:nth-child(2) {
+    width:50%;
+  }
+  div:nth-child(3) {
+    width:15%;
+  }
+  div:nth-child(4) {
+    width: 10%;
+  }
+  div:nth-child(5) {
+    width: 10%;
+  }
+}
