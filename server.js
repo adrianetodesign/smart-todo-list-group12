@@ -20,7 +20,6 @@ db.connect();
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan("dev"));
 app.use(cookieParser());
-app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
@@ -45,5 +44,5 @@ app.get('/login', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+  console.log(`Express running on port ${PORT}`);
 });
