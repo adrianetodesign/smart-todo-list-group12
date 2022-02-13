@@ -4,13 +4,18 @@
   padding: 0.2em;
   border: solid black;
   border-radius: 4px;
+  position: fixed;
+  bottom: 10vw;
+  left: 50%;
+  transform: translate(-50%);
+  background-color: aliceblue;
   form {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
     textarea {
-      background: transparent;
+      background-color: aliceblue;
       border: none;
       resize: none;
       width:50vw;
