@@ -43,6 +43,38 @@ module.exports = (db) => {
 
   });
 
+  router.post("/:id/delete", (req,res) => {
+    // Toggles the is_archived boolean on the entry and returns
+    // the updated version
+    const userID = req.cookies.userID;
+    const taskID = req.params.id;
+    if (!userID) {
+      res.redirect('/login');
+      return;
+    }
+
+    const queryString = `
+      UPDATE tasks
+      SET is_archived = NOT is_archived
+      WHERE id = $1
+      AND user_id = $2
+      RETURNING *`;
+
+    const values = [taskID, userID];
+
+    db.query(queryString, values)
+      .then(data => {
+        const task = data.rows[0];
+        res.json({ task });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message});
+      });
+
+  });
+
   router.get("/:id", (req, res) => {
     const userID = req.cookies.userID;
     if (!userID) {
