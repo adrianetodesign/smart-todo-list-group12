@@ -10,35 +10,6 @@ const router  = express.Router();
 
 module.exports = (db) => {
 
-  router.post('/new', (req, res) => {
-    const userID = req.cookies.userID;
-    const { body, categoryID } = req.body;
-
-    if (!userID) {
-      res.redirect('/login');
-      return;
-    }
-
-    const queryString = `
-      INSERT INTO tasks (user_id, body, category_id)
-      VALUES ($1, $2, $3)
-      RETURNING * `;
-
-    const values = [userID, body, categoryID];
-
-    db.query(queryString, values)
-      .then(data => {
-        const task = data.rows[0];
-        res.json({ task });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message});
-      });
-
-  });
-
   router.post("/:id/done", (req,res) => {
     // Toggles the is_completed boolean on the entry and returns
     // the updated version
@@ -90,6 +61,36 @@ module.exports = (db) => {
       RETURNING *`;
 
     const values = [taskID, userID];
+
+    db.query(queryString, values)
+      .then(data => {
+        const task = data.rows[0];
+        res.json({ task });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message});
+      });
+
+  });
+
+  router.post('/', (req, res) => {
+    const userID = req.cookies.userID;
+    const { body, categoryID } = req.body;
+    console.log('req.body', req.body);
+
+    if (!userID) {
+      res.redirect('/login');
+      return;
+    }
+
+    const queryString = `
+      INSERT INTO tasks (user_id, body, category_id)
+      VALUES ($1, $2, $3)
+      RETURNING * `;
+
+    const values = [userID, body, categoryID];
 
     db.query(queryString, values)
       .then(data => {
