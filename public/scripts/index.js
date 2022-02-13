@@ -28,26 +28,13 @@ $(() => {
     `;
     return $htmlTask;
   }
-
-  //--- Given an array of tasks, renders them in their proper container on the page.
-  const renderTasks = function(tasks) {
-    // Prepend to ensure most recent task is placed on top.
-    for (const task of tasks) {
-      $("#tasks-container").prepend(createTaskElement(task));
-    }
-  };
-
-  const loadTasks = function() {
-    $.get("/tasks")
-      .then((data) => {
-        $("#tasks-container").empty();
-        console.log(data.tasks);
-        renderTasks(data.tasks);
-      }).catch((err) => {
-        console.log("An error has occured:", err);
-      });
-  };
-  loadTasks();
+    //--- Given an array of tasks, renders them in their proper container on the page.
+    const renderTasks = function(tasks) {
+      // Prepend to ensure most recent task is placed on top.
+      for (const task of tasks) {
+        $("#tasks-container").prepend(createTaskElement(task));
+      }
+    };
 
 });
 
