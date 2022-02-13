@@ -36,5 +36,17 @@ $(() => {
       }
     };
 
+    const loadTasks = function() {
+      $.get("/tasks")
+        .then((data) => {
+          $("#tasks-container").empty();
+          console.log(data.tasks);
+          renderTasks(data.tasks);
+        }).catch((err) => {
+          console.log("An error has occured:", err);
+        });
+    };
+    loadTasks();
+
 });
 
