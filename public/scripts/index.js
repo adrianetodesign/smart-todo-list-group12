@@ -60,7 +60,7 @@ $(() => {
     };
     loadTasks();
 
-    $("task-form").on("submit", function(e) {
+    $("#task-form").on("submit", function(e) {
 
       e.preventDefault();
 
