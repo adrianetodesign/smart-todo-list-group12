@@ -1,13 +1,8 @@
 const request = require('request-promise-native');
 
 const classify = function(searchTerm) {
-  const results = {};
-  return requestWolframAlpha(searchTerm)
-    .then(data => {
-      const queryResult = JSON.parse(data).queryresult.datatypes;
-      const classes = queryResult.split(',');
-      return results.wolfram = classes;
-    });
+  return requestWolframAlpha(searchTerm);
+
 };
 
 const requestWolframAlpha = function(searchTerm) {
@@ -22,7 +17,11 @@ const requestWolframAlpha = function(searchTerm) {
     }
   };
 
-  return request(options);
+  return request(options).then(data => {
+    const queryResult = JSON.parse(data).queryresult.datatypes;
+    const classes = queryResult.split(',');
+    return classes;
+  });
 };
 
 
