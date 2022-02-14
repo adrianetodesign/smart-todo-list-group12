@@ -10,7 +10,7 @@ $(() => {
     let $htmlTask = `
     <article class="task">
     <div>
-      <p>${escape(task.category_id)}</p>
+      <p>${escape(task.name)}</p>
     </div>
     <div>
       <p>${escape(task.body)}</p>
@@ -36,18 +36,6 @@ $(() => {
       }
     };
 
-    const loadTasks = function() {
-      $.get("/tasks")
-        .then((data) => {
-          $("#tasks-container").empty();
-          console.log(data.tasks);
-          renderTasks(data.tasks);
-        }).catch((err) => {
-          console.log("An error has occured:", err);
-        });
-    };
-    loadTasks();
-
     const loadUser = function() {
       $.get("/users")
         .then((data) => {
@@ -60,5 +48,31 @@ $(() => {
     };
     loadUser();
 
+    const loadTasks = function() {
+      $.get("/tasks")
+        .then((data) => {
+          $("#tasks-container").empty();
+          console.log(data.tasks);
+          renderTasks(data.tasks);
+        }).catch((err) => {
+          console.log("An error has occured:", err);
+        });
+    };
+    loadTasks();
+
+    $("task-form").on("submit", function(e) {
+
+      e.preventDefault();
+
+      $.post("/tasks", $(this).serialize())
+      .then(() => {
+        console.log("task submission successful.");
+        $("form").trigger("reset");
+        loadTasks();
+      }).catch((err) => {
+        console.log($(this));
+        console.log("An error has occured:", err);
+      });
+    });
 });
 
