@@ -55,8 +55,9 @@
     <section id="tasks-container">
     </section>
     <section id="new-task">
-      <form method="post" action="/" class="task-form">
-        <textarea name="text" class="task-text" placeholder="What do you need to do?"></textarea>
+      <form method="post" action="/tasks" class="task-form">
+        <textarea name="body" class="task-text" placeholder="What do you need to do?"></textarea>
+        <input type="number" min="1" max="4" name="categoryID">
         <button type="submit">+</button>
       </form>
     </section>
