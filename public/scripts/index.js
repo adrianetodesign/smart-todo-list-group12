@@ -76,21 +76,23 @@ $(() => {
   $("#task-form").on("submit", function(e) {
 
     e.preventDefault();
+    let $postData = $(this).serializeArray();
 
-    $taskText = $("#task-text").val();
-
+    const $taskText = escape($("#task-text").val());
+    let $taskCategoryID = '';
     $.get(`tasks/classify/${$taskText}`)
     .then((data) => {
-      console.log(data);
-    }).catch((err) => {
-      console.log("An error has occured:", err);
-    });
-
-    $.post("/tasks", $(this).serialize())
-    .then(() => {
-      console.log("task submission successful.");
-      $("form").trigger("reset");
-      loadTasks();
+      $taskCategoryID = data.classNumber;
+      $postData.push({name: "categoryID", value: $taskCategoryID});
+      $.post("/tasks", $postData)
+      .then(() => {
+        console.log($postData);
+        console.log("task submission successful.");
+        $("form").trigger("reset");
+        loadTasks();
+      }).catch((err) => {
+        console.log("An error has occured:", err);
+      });
     }).catch((err) => {
       console.log("An error has occured:", err);
     });
