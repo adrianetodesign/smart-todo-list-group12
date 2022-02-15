@@ -33,16 +33,16 @@ const requestGoogle = function(searchTerm) {
     qs: {
       key: process.env.GOOGLE,
       query: searchTerm,
-      limit: 3,
+      limit: 10,
     }
   };
 
   return request(options).then(data => {
     const outputArr = [];
     const results = JSON.parse(data).itemListElement;
-    results.forEach(result => outputArr.push(result.result['@type']));
+    results.forEach(arrItem => outputArr.push(arrItem.result['@type']));
 
-    // console.log(outputArr);
+    // console.log({outputArr});
 
     const interesting = [
       'ProductModel',
@@ -50,33 +50,44 @@ const requestGoogle = function(searchTerm) {
       'MovieSeries',
       'TVSeries',
       'Book',
-      'Restaurant'
+      'Restaurant',
     ];
+
+    const getClass = function(classNumber) {
+      switch (classNumber) {
+      case 1:
+        return { classNumber, className: 'film'};
+      case 2:
+        return { classNumber, className: 'restaurants'};
+      case 3:
+        return { classNumber, className: 'books'};
+      case 4:
+        return { classNumber, className: 'products'};
+      }
+    };
 
     for (let sub of outputArr) {
       for (let item of sub) {
         if (interesting.includes(item)) {
-          // console.log({item});
           switch (item) {
           case 'Movie':
-            return 1;
+            return getClass(1);
           case 'MovieSeries':
-            return 1;
+            return getClass(1);
           case 'TVSeries':
-            return 1;
+            return getClass(1);
           case 'Restaurant':
-            return 2;
+            return getClass(2);
           case 'Book':
-            return 3;
+            return getClass(3);
           case 'ProductModel':
-            return 4;
+            return getClass(4);
           default:
-            return 2;
+            return getClass(2);
           }
         }
       }
     }
-
 
     // types to search for are
     // ProductModel
@@ -84,8 +95,8 @@ const requestGoogle = function(searchTerm) {
     // MovieSeries
     // TVSeries
     // Book
-    console.log({outputArr});
 
+    // console.log({outputArr});
 
     return outputArr;
   });
