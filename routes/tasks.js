@@ -26,7 +26,7 @@ module.exports = (db) => {
       SET is_completed = NOT is_completed
       WHERE id = $1
       AND user_id = $2
-      RETURNING *`;
+      RETURNING *;`;
 
     const values = [taskID, userID];
 
@@ -58,7 +58,7 @@ module.exports = (db) => {
       SET is_archived = NOT is_archived
       WHERE id = $1
       AND user_id = $2
-      RETURNING *`;
+      RETURNING *;`;
 
     const values = [taskID, userID];
 
@@ -104,7 +104,7 @@ module.exports = (db) => {
     queryString += `
     WHERE user_id = $1
     AND id = $2
-    RETURNING * `;
+    RETURNING * ;`;
 
     db.query(queryString, queryParams)
       .then(data => {
@@ -132,7 +132,7 @@ module.exports = (db) => {
     const queryString = `
       INSERT INTO tasks (user_id, body, category_id)
       VALUES ($1, $2, $3)
-      RETURNING * `;
+      RETURNING * ;`;
 
     const values = [userID, body, categoryID];
 
@@ -159,7 +159,7 @@ module.exports = (db) => {
     const queryString = `
       SELECT * FROM tasks
       WHERE user_id = $1
-      AND id = $2
+      AND id = $2;
       `;
 
     const values = [userID, req.params.id];
@@ -185,7 +185,7 @@ module.exports = (db) => {
 
     const queryString = `
       SELECT * FROM tasks
-      WHERE user_id = $1
+      WHERE user_id = $1 AND is_archived = false;
       `;
 
     const values = [userID];
