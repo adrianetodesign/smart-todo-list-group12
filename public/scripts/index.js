@@ -19,7 +19,7 @@ $(() => {
       <p>${escape(task.category_id)}</p>
     </div>
     <div>
-      <p>${escape(task.body)}</p>
+      <p class="task-body">${escape(task.body)}</p>
     </div>
     <div>
       <p>${escape(task.time_added)}</p>
@@ -86,23 +86,25 @@ $(() => {
     $(document).on('click', '.delete', function() {
       const $deleteBttn = $(this);
       const taskID = $deleteBttn.closest(".task").prop("id");
-      $.ajax({
-        type: 'post',
-        url: `/tasks/${taskID}/delete`
-      }).then(() => {
+      $.post(`/tasks/${taskID}/delete`)
+      .then(() => {
         console.log("delete task successful.");
         loadTasks();
       })
     })
 
-    // $("[type='checkbox']").on("click", function(e) {
-    //   let $checkComplete = $(this);
-    //   if($checkComplete.prop("checked")) {
-    //     console.log("Checkbox checked");
-    //   }
-    //   if ($checkComplete.prop("checked")) {
-    //     console.log("Checkbox unchecked");
-    //   }
-    // });
+    $(document).on("click", "input[type='checkbox']", function() {
+      let $checkComplete = $(this);
+      const taskID = $checkComplete.closest(".task").prop("id");
+      if($checkComplete.prop("checked")) {
+        console.log("Checkbox checked");
+        $.post(`/tasks/${taskID}/done`);
+        $checkComplete.closest(".task-body").addClass("completed");
+      }
+      if(!$checkComplete.prop("checked")) {
+        console.log("Checkbox unchecked");
+        $.post(`/tasks/${taskID}/done`);
+        $checkComplete.closest(".task-body").removeClass("completed");
+      }
+    });
 });
-
