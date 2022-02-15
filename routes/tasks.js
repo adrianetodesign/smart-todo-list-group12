@@ -185,7 +185,6 @@ module.exports = (db) => {
 
     const queryString = `
       SELECT * FROM tasks
-      JOIN categories ON category_id = categories.id
       WHERE user_id = $1;
       `;
 
