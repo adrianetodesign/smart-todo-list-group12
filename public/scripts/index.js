@@ -77,6 +77,15 @@ $(() => {
 
     e.preventDefault();
 
+    $taskText = $("#task-text").val();
+
+    $.get(`tasks/classify/${$taskText}`)
+    .then((data) => {
+      console.log(data);
+    }).catch((err) => {
+      console.log("An error has occured:", err);
+    });
+
     $.post("/tasks", $(this).serialize())
     .then(() => {
       console.log("task submission successful.");
