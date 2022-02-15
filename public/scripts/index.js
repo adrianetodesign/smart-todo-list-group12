@@ -1,4 +1,5 @@
 // Client facing scripts here
+
 $(() => {
   const escape = function(str) {
     let div = document.createElement("div");
@@ -21,7 +22,7 @@ $(() => {
     let $htmlTask = `
     <article class="task" data-task-id=${task.id} data-category-id=${task.category_id}>
       <div>
-        <p class="category-id">${escape(task.name)}</p>
+        <p class="category-id">${task.name}</p>
         <select name="category_id">
           <option value="1">films</option>
           <option value="2">restauraunts</option>
@@ -30,11 +31,11 @@ $(() => {
         </select>
       </div>
       <div>
-        <p class="task-body ${$completedClass}">${escape(task.body)}</p>
+        <p class="task-body ${$completedClass}">${task.body}</p>
         <input type="text" name="body">
       </div>
       <div>
-        <p>${escape(task.time_added)}</p>
+        <p>${formatDate(task.time_added)}</p>
       </div>
       <div>
         <input type="checkbox" ${$isCompleted}>
@@ -117,7 +118,7 @@ $(() => {
 
   $(document).on("click", "input[type='checkbox']", function() {
     const $checkComplete = $(this);
-    const taskID = $checkComplete.closest(".task").prop("id");
+    const taskID = $checkComplete.closest(".task").data("task-id");
     $.post(`/tasks/${taskID}/done`)
     .then(() => {
       console.log("Toggled is_completed successful.");
