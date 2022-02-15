@@ -8,10 +8,13 @@ $(() => {
 
   const createTaskElement = function(task) {
     let $isCompleted = '';
+    let $completedClass = '';
     if (task.is_completed) {
       $isCompleted = 'checked';
+      $completedClass = "completed";
     } else {
       $isCompleted = '';
+      $completedClass = '';
     }
     let $htmlTask = `
     <article class="task" id=${task.id}>
@@ -19,7 +22,7 @@ $(() => {
       <p>${escape(task.category_id)}</p>
     </div>
     <div>
-      <p class="task-body">${escape(task.body)}</p>
+      <p class="task-body ${$completedClass}">${escape(task.body)}</p>
     </div>
     <div>
       <p>${escape(task.time_added)}</p>
@@ -83,7 +86,7 @@ $(() => {
       });
     });
 
-    $(document).on('click', '.delete', function() {
+    $(document).on("click", ".delete", function() {
       const $deleteBttn = $(this);
       const taskID = $deleteBttn.closest(".task").prop("id");
       $.post(`/tasks/${taskID}/delete`)
@@ -99,12 +102,15 @@ $(() => {
       if($checkComplete.prop("checked")) {
         console.log("Checkbox checked");
         $.post(`/tasks/${taskID}/done`);
-        $checkComplete.closest(".task-body").addClass("completed");
       }
       if(!$checkComplete.prop("checked")) {
         console.log("Checkbox unchecked");
         $.post(`/tasks/${taskID}/done`);
-        $checkComplete.closest(".task-body").removeClass("completed");
       }
+      loadTasks();
+    });
+
+    $(document).on("click", ".edit", function() {
+      let task = $(this).closest(".task");
     });
 });
