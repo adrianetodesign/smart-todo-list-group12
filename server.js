@@ -36,6 +36,9 @@ app.use(express.static("public"));
 // Define and enable routers
 const taskRoutes = require("./routes/tasks.js");
 app.use("/tasks", taskRoutes(db));
+const userRoutes = require("./routes/users.js");
+app.use("/users", userRoutes(db));
+
 
 // Define root level routes
 app.get('/login', (req, res) => {
