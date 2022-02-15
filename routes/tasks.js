@@ -185,7 +185,7 @@ module.exports = (db) => {
 
     const queryString = `
       SELECT * FROM tasks
-      WHERE user_id = $1;
+      WHERE user_id = $1 AND is_archived = false;
       `;
 
     const values = [userID];
