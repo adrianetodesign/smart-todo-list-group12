@@ -156,7 +156,7 @@ module.exports = (db) => {
 
     classify(searchTerm)
       .then(data => {
-        res.send(data);
+        res.json(data);
       })
       .catch(err => {
         res

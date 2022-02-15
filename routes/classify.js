@@ -42,6 +42,51 @@ const requestGoogle = function(searchTerm) {
     const results = JSON.parse(data).itemListElement;
     results.forEach(result => outputArr.push(result.result['@type']));
 
+    // console.log(outputArr);
+
+    const interesting = [
+      'ProductModel',
+      'Movie',
+      'MovieSeries',
+      'TVSeries',
+      'Book',
+      'Restaurant'
+    ];
+
+    for (let sub of outputArr) {
+      for (let item of sub) {
+        if (interesting.includes(item)) {
+          // console.log({item});
+          switch (item) {
+          case 'Movie':
+            return 1;
+          case 'MovieSeries':
+            return 1;
+          case 'TVSeries':
+            return 1;
+          case 'Restaurant':
+            return 2;
+          case 'Book':
+            return 3;
+          case 'ProductModel':
+            return 4;
+          default:
+            return 2;
+          }
+        }
+      }
+    }
+
+
+    // types to search for are
+    // ProductModel
+    // Movie
+    // MovieSeries
+    // TVSeries
+    // Book
+    console.log({outputArr});
+
+
     return outputArr;
   });
 };
