@@ -19,10 +19,15 @@ $(() => {
     }
 
     let $htmlTask = `
-    <article class="task" id=${task.id}>
+    <article class="task" data-task-id=${task.id} data-category-id=${task.category_id}>
       <div>
-        <p class="category-id">${escape(task.category_id)}</p>
-        <input type="number" name="category_id" min="1" max="4">
+        <p class="category-id">${escape(task.name)}</p>
+        <select name="category_id">
+          <option value="1">films</option>
+          <option value="2">restauraunts</option>
+          <option value="3">books</option>
+          <option value="4">products</option>
+        </select>
       </div>
       <div>
         <p class="task-body ${$completedClass}">${escape(task.body)}</p>
@@ -100,7 +105,7 @@ $(() => {
 
   $(document).on("click", ".delete", function() {
     const $deleteBttn = $(this);
-    const taskID = $deleteBttn.closest(".task").prop("id");
+    const taskID = $deleteBttn.closest(".task").data("task-id");
     $.post(`/tasks/${taskID}/delete`)
     .then(() => {
       console.log("delete task successful.");
@@ -126,15 +131,15 @@ $(() => {
   $(document).on("click", ".edit", function() {
     const $editTask = $(this);
     const $task = $editTask.closest(".task");
-    const $taskID = $editTask.closest(".task").prop("id");
-    const $categoryID = $editTask.closest(".category-id");
-    const $taskBody = $editTask.closest(".task-body");
-    const $taskInputText = $taskBody.find("input[type='text']");
-    const $taskInputNumber = $categoryID.find("input[type='number']");
+    const taskID = $editTask.closest(".task").data("task-id");
+    const $taskBody = $task.find("p.task-body");
+    const $inputText = $task.find("input[type='text']");
+    const $selectCategory = $task.find("select");
+    const categoryID = $task.data("category-id");
 
     if($task.hasClass("edit-mode")) {
-      $.post(`/tasks/${$taskID}/`,
-      $($task).find("input[type='text'], input[type='number']").serialize()
+      $.post(`/tasks/${taskID}`,
+      $($task).find("select, input[type='text']").serialize()
       )
       .then(() => {
         console.log("Edit Task was successful");
@@ -146,8 +151,8 @@ $(() => {
       })
     } else {
       $($task).addClass("edit-mode");
-      $($taskInputText).val($($taskBody).text());
-      $($taskInputNumber).val($($categoryID).text());
+      $inputText.val($taskBody.text());
+      $selectCategory.val(categoryID);
       $(this).text("Save");
     }
   });
