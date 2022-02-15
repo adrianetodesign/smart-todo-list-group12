@@ -35,7 +35,7 @@ $(() => {
         <input type="text" name="body">
       </div>
       <div>
-        <p>${formatDate(task.time_added)}</p>
+        <p>${timeago.format(new Date(task.time_added))}</p>
       </div>
       <div>
         <input type="checkbox" ${$isCompleted}>
