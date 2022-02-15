@@ -50,7 +50,6 @@ $(() => {
     const loadUser = function() {
       $.get("/users")
         .then((data) => {
-          console.log(data);
           $("#user-name").empty();
           $("#user-name").html(`${data.users[0].name}'s`);
         }).catch((err) => {
@@ -63,7 +62,6 @@ $(() => {
       $.get("/tasks")
         .then((data) => {
           $("#tasks-container").empty();
-          console.log(data.tasks);
           renderTasks(data.tasks);
         }).catch((err) => {
           console.log("An error has occured:", err);
@@ -100,11 +98,9 @@ $(() => {
       let $checkComplete = $(this);
       const taskID = $checkComplete.closest(".task").prop("id");
       if($checkComplete.prop("checked")) {
-        console.log("Checkbox checked");
         $.post(`/tasks/${taskID}/done`);
       }
       if(!$checkComplete.prop("checked")) {
-        console.log("Checkbox unchecked");
         $.post(`/tasks/${taskID}/done`);
       }
       loadTasks();
