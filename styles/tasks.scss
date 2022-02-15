@@ -37,10 +37,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-
-    .completed {
-      text-decoration: line-through;
-    }
   }
   .edit-features {
     cursor: pointer;
@@ -61,4 +57,8 @@
   div:nth-child(5) {
     width: 10%;
   }
+}
+
+.completed {
+  text-decoration: line-through;
 }
