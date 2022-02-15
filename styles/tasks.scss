@@ -42,6 +42,27 @@
     cursor: pointer;
     display: inline-block;
   }
+
+  .task div input[type=number] {
+    display: none;
+  }
+
+  .task div input[type=text]  {
+    display: none;
+  }
+  .task.edit-mode input[type=number] {
+    display: block;
+  }
+  .task.edit-mode input[type=text] {
+    display: block;
+  }
+  .task.edit-mode .task-body {
+    display: none;
+  }
+  .task.edit-mode .category-id {
+    display: none;
+  }
+
   div:first-child {
     width:15%;
   }
