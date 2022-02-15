@@ -8,6 +8,8 @@
 const express = require('express');
 const router  = express.Router();
 
+const { classify } = require('./classify');
+
 module.exports = (db) => {
 
   router.post("/:id/done", (req,res) => {
@@ -145,6 +147,21 @@ module.exports = (db) => {
         res
           .status(500)
           .json({ error: err.message});
+      });
+
+  });
+
+  router.get("/classify/:searchTerm", (req, res) => {
+    const searchTerm = req.params.searchTerm;
+
+    classify(searchTerm)
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
       });
 
   });
