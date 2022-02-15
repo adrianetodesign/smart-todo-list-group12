@@ -7,10 +7,16 @@ $(() => {
   };
 
   const createTaskElement = function(task) {
+    let $isCompleted = '';
+    if (task.is_completed) {
+      $isCompleted = 'checked';
+    } else {
+      $isCompleted = '';
+    }
     let $htmlTask = `
-    <article class="task">
+    <article class="task" id=${task.id}>
     <div>
-      <p>${escape(task.name)}</p>
+      <p>${escape(task.category_id)}</p>
     </div>
     <div>
       <p>${escape(task.body)}</p>
@@ -19,15 +25,17 @@ $(() => {
       <p>${escape(task.time_added)}</p>
     </div>
     <div>
-      <input type="checkbox">
+      <input type="checkbox" ${$isCompleted}>
     </div>
-    <div class="kebab">
-      <i class="fa-solid fa-ellipsis-vertical fa-xl"></i>
+    <div class="edit-features">
+      <button class="edit">Edit</button>
+      <button class="delete">Delete</button>
     </div>
     </article>
     `;
     return $htmlTask;
-  }
+  };
+
     //--- Given an array of tasks, renders them in their proper container on the page.
     const renderTasks = function(tasks) {
       // Prepend to ensure most recent task is placed on top.
@@ -74,5 +82,27 @@ $(() => {
         console.log("An error has occured:", err);
       });
     });
+
+    $(document).on('click', '.delete', function() {
+      const $deleteBttn = $(this);
+      const taskID = $deleteBttn.closest(".task").prop("id");
+      $.ajax({
+        type: 'post',
+        url: `/tasks/${taskID}/delete`
+      }).then(() => {
+        console.log("delete task successful.");
+        loadTasks();
+      })
+    })
+
+    // $("[type='checkbox']").on("click", function(e) {
+    //   let $checkComplete = $(this);
+    //   if($checkComplete.prop("checked")) {
+    //     console.log("Checkbox checked");
+    //   }
+    //   if ($checkComplete.prop("checked")) {
+    //     console.log("Checkbox unchecked");
+    //   }
+    // });
 });
 
