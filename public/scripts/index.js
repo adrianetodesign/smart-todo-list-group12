@@ -7,33 +7,37 @@ $(() => {
   };
 
   const createTaskElement = function(task) {
-    let $isCompleted = '';
-    let $completedClass = '';
+    let $isCompleted = "";
+    let $completedClass = "";
+
     if (task.is_completed) {
       $isCompleted = 'checked';
       $completedClass = "completed";
     } else {
-      $isCompleted = '';
-      $completedClass = '';
+      $isCompleted = "";
+      $completedClass = "";
     }
+
     let $htmlTask = `
     <article class="task" id=${task.id}>
-    <div>
-      <p>${escape(task.category_id)}</p>
-    </div>
-    <div>
-      <p class="task-body ${$completedClass}">${escape(task.body)}</p>
-    </div>
-    <div>
-      <p>${escape(task.time_added)}</p>
-    </div>
-    <div>
-      <input type="checkbox" ${$isCompleted}>
-    </div>
-    <div class="edit-features">
-      <button class="edit">Edit</button>
-      <button class="delete">Delete</button>
-    </div>
+      <div>
+        <p class="category-id">${escape(task.category_id)}</p>
+        <input type="number" name="category_id" min="1" max="4">
+      </div>
+      <div>
+        <p class="task-body ${$completedClass}">${escape(task.body)}</p>
+        <input type="text" name="body">
+      </div>
+      <div>
+        <p>${escape(task.time_added)}</p>
+      </div>
+      <div>
+        <input type="checkbox" ${$isCompleted}>
+      </div>
+      <div class="edit-features">
+        <button class="edit">Edit</button>
+        <button class="delete">Delete</button>
+      </div>
     </article>
     `;
     return $htmlTask;
@@ -79,7 +83,6 @@ $(() => {
         $("form").trigger("reset");
         loadTasks();
       }).catch((err) => {
-        console.log($(this));
         console.log("An error has occured:", err);
       });
     });
@@ -91,22 +94,53 @@ $(() => {
       .then(() => {
         console.log("delete task successful.");
         loadTasks();
-      })
+      }).catch((err) => {
+        console.log("An error has occured:", err);
+      });
+
     })
 
     $(document).on("click", "input[type='checkbox']", function() {
-      let $checkComplete = $(this);
+      const $checkComplete = $(this);
       const taskID = $checkComplete.closest(".task").prop("id");
-      if($checkComplete.prop("checked")) {
-        $.post(`/tasks/${taskID}/done`);
-      }
-      if(!$checkComplete.prop("checked")) {
-        $.post(`/tasks/${taskID}/done`);
-      }
-      loadTasks();
+      $.post(`/tasks/${taskID}/done`)
+      .then(() => {
+        console.log("Toggled is_completed successful.");
+        loadTasks();
+      }).catch((err) => {
+        console.log("An error has occured:", err);
+      });
+
     });
 
     $(document).on("click", ".edit", function() {
-      let task = $(this).closest(".task");
+      const $editTask = $(this);
+      const $task = $editTask.closest(".task");
+      const $taskID = $editTask.closest(".task").prop("id");
+      const $categoryID = $editTask.closest(".category-id");
+      const $taskBody = $editTask.closest(".task-body");
+      const $taskInputText = $editTask.closest("input[type='text']");
+      const $taskInputNumber = $editTask.closest("input[type='number']");
+
+      if($task.hasClass("editMode")) {
+        $.post(`/tasks/${$taskID}/`,
+        {
+          category_id: $($taskInputNumber).val(),
+          body: $($taskInputText).val()
+        })
+        .then(() => {
+          console.log("Edit Task was successful");
+          $task.removeClass("edit-mode");
+          $(this).text("Edit");
+          loadTasks();
+        }).catch((err) => {
+          console.log("An error has occured:", err);
+        })
+      } else {
+        $($task).addClass("edit-mode");
+        $($taskInputText).val($($taskBody).text());
+        $($taskInputNumber).val($($categoryID).text());
+        $(this).text("Save");
+      }
     });
 });
