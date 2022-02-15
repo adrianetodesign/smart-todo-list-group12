@@ -43,104 +43,105 @@ $(() => {
     return $htmlTask;
   };
 
-    //--- Given an array of tasks, renders them in their proper container on the page.
-    const renderTasks = function(tasks) {
-      // Prepend to ensure most recent task is placed on top.
-      for (const task of tasks) {
-        $("#tasks-container").prepend(createTaskElement(task));
-      }
-    };
+  //--- Given an array of tasks, renders them in their proper container on the page.
+  const renderTasks = function(tasks) {
+    // Prepend to ensure most recent task is placed on top.
+    for (const task of tasks) {
+      $("#tasks-container").prepend(createTaskElement(task));
+    }
+  };
 
-    const loadUser = function() {
-      $.get("/users")
-        .then((data) => {
-          $("#user-name").empty();
-          $("#user-name").html(`${data.users[0].name}'s`);
-        }).catch((err) => {
-          console.log("An error has occured:", err);
-        });
-    };
-    loadUser();
-
-    const loadTasks = function() {
-      $.get("/tasks")
-        .then((data) => {
-          $("#tasks-container").empty();
-          renderTasks(data.tasks);
-        }).catch((err) => {
-          console.log("An error has occured:", err);
-        });
-    };
-    loadTasks();
-
-    $("#task-form").on("submit", function(e) {
-
-      e.preventDefault();
-
-      $.post("/tasks", $(this).serialize())
-      .then(() => {
-        console.log("task submission successful.");
-        $("form").trigger("reset");
-        loadTasks();
+  const loadUser = function() {
+    $.get("/users")
+      .then((data) => {
+        $("#user-name").empty();
+        $("#user-name").html(`${data.users[0].name}'s`);
       }).catch((err) => {
         console.log("An error has occured:", err);
       });
-    });
+  };
+  loadUser();
 
-    $(document).on("click", ".delete", function() {
-      const $deleteBttn = $(this);
-      const taskID = $deleteBttn.closest(".task").prop("id");
-      $.post(`/tasks/${taskID}/delete`)
-      .then(() => {
-        console.log("delete task successful.");
-        loadTasks();
+  const loadTasks = function() {
+    $.get("/tasks")
+      .then((data) => {
+        $("#tasks-container").empty();
+        renderTasks(data.tasks);
       }).catch((err) => {
         console.log("An error has occured:", err);
       });
+  };
+  loadTasks();
 
-    })
+  $("#task-form").on("submit", function(e) {
 
-    $(document).on("click", "input[type='checkbox']", function() {
-      const $checkComplete = $(this);
-      const taskID = $checkComplete.closest(".task").prop("id");
-      $.post(`/tasks/${taskID}/done`)
+    e.preventDefault();
+
+    $.post("/tasks", $(this).serialize())
+    .then(() => {
+      console.log("task submission successful.");
+      $("form").trigger("reset");
+      loadTasks();
+    }).catch((err) => {
+      console.log("An error has occured:", err);
+    });
+  });
+
+  $(document).on("click", ".delete", function() {
+    const $deleteBttn = $(this);
+    const taskID = $deleteBttn.closest(".task").prop("id");
+    $.post(`/tasks/${taskID}/delete`)
+    .then(() => {
+      console.log("delete task successful.");
+      loadTasks();
+    }).catch((err) => {
+      console.log("An error has occured:", err);
+    });
+  })
+
+  $(document).on("click", "input[type='checkbox']", function() {
+    const $checkComplete = $(this);
+    const taskID = $checkComplete.closest(".task").prop("id");
+    $.post(`/tasks/${taskID}/done`)
+    .then(() => {
+      console.log("Toggled is_completed successful.");
+      loadTasks();
+    }).catch((err) => {
+      console.log("An error has occured:", err);
+    });
+
+  });
+
+  $(document).on("click", ".edit", function() {
+    const $editTask = $(this);
+    const $task = $editTask.closest(".task");
+    const $taskID = $editTask.closest(".task").prop("id");
+    const $categoryID = $editTask.closest(".category-id");
+    const $taskBody = $editTask.closest(".task-body");
+    const $taskInputText = $taskBody.find("input[type='text']");
+    const $taskInputNumber = $categoryID.find("input[type='number']");
+
+    if($task.hasClass("edit-mode")) {
+      $.post(`/tasks/${$taskID}/`,
+      {
+        body: $($taskInputText).val(),
+        category_id: $($taskInputNumber).val()
+      })
       .then(() => {
-        console.log("Toggled is_completed successful.");
+        console.log("Edit Task was successful");
+        $task.removeClass("edit-mode");
+        $(this).text("Edit");
         loadTasks();
       }).catch((err) => {
         console.log("An error has occured:", err);
-      });
-
-    });
-
-    $(document).on("click", ".edit", function() {
-      const $editTask = $(this);
-      const $task = $editTask.closest(".task");
-      const $taskID = $editTask.closest(".task").prop("id");
-      const $categoryID = $editTask.closest(".category-id");
-      const $taskBody = $editTask.closest(".task-body");
-      const $taskInputText = $editTask.closest("input[type='text']");
-      const $taskInputNumber = $editTask.closest("input[type='number']");
-
-      if($task.hasClass("editMode")) {
-        $.post(`/tasks/${$taskID}/`,
-        {
-          category_id: $($taskInputNumber).val(),
-          body: $($taskInputText).val()
-        })
-        .then(() => {
-          console.log("Edit Task was successful");
-          $task.removeClass("edit-mode");
-          $(this).text("Edit");
-          loadTasks();
-        }).catch((err) => {
-          console.log("An error has occured:", err);
-        })
-      } else {
-        $($task).addClass("edit-mode");
-        $($taskInputText).val($($taskBody).text());
-        $($taskInputNumber).val($($categoryID).text());
-        $(this).text("Save");
-      }
-    });
+        console.log($taskInputText.val());
+        console.log($taskInputNumber.val());
+      })
+    } else {
+      $($task).addClass("edit-mode");
+      $($taskInputText).val($($taskBody).text());
+      $($taskInputNumber).val($($categoryID).text());
+      $(this).text("Save");
+    }
+  });
 });
