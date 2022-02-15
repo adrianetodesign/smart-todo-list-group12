@@ -123,10 +123,8 @@ $(() => {
 
     if($task.hasClass("edit-mode")) {
       $.post(`/tasks/${$taskID}/`,
-      {
-        body: $($taskInputText).val(),
-        category_id: $($taskInputNumber).val()
-      })
+      $($task).find("input[type='text'], input[type='number']").serialize()
+      )
       .then(() => {
         console.log("Edit Task was successful");
         $task.removeClass("edit-mode");
@@ -134,8 +132,6 @@ $(() => {
         loadTasks();
       }).catch((err) => {
         console.log("An error has occured:", err);
-        console.log($taskInputText.val());
-        console.log($taskInputNumber.val());
       })
     } else {
       $($task).addClass("edit-mode");
