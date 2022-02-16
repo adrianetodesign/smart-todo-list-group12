@@ -102,6 +102,11 @@ $(() => {
 
   $("#add-task-btn").on("click", function() {
     $("#new-task").addClass("active");
+    $("html, body").animate({
+      scrollTop: $("header").offset().top
+    },500, function() {
+    $("#task-text").focus();
+    });
   });
 
   $("#task-form").on("submit", function(e) {
