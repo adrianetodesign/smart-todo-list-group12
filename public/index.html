@@ -40,32 +40,29 @@
       <h1><span id="user-name"></span> To-Do List</h1>
     </header>
     <section id="tasks-header">
-
       <form id="task-category-select">
         <div>
           <input type="radio" name="filter" id="radio-all" value="all" checked>
           <label for="radio-all"><i class="fa-solid fa-filter"></i></label>
         </div>
         <div>
-          <input type="radio" name="filter" id="radio-films" value="films">
-          <label data-category_id="1" for="radio-films"><i class="fa-solid fa-film"></i></label>
+          <input type="radio" name="filter" id="radio-watch" value="watch">
+          <label data-category_id="1" for="radio-watch"><i class="fa-solid fa-film"></i></label>
         </div>
         <div>
-          <input type="radio" name="filter" id="radio-restaurants" value="restaurants">
-          <label data-category_id="2" for="radio-restaurants"><i class="fa-solid fa-utensils"></i></label>
+          <input type="radio" name="filter" id="radio-eat" value="eat">
+          <label data-category_id="2" for="radio-eat"><i class="fa-solid fa-utensils"></i></label>
         </div>
         <div>
-          <input type="radio" name="filter" id="radio-books" value="books">
-          <label data-category_id="3" for="radio-books"><i class="fa-solid fa-book"></i></label>
+          <input type="radio" name="filter" id="radio-read" value="read">
+          <label data-category_id="3" for="radio-read"><i class="fa-solid fa-book"></i></label>
         </div>
         <div>
-          <input type="radio" name="filter" id="radio-products" value="products">
-          <label data-category_id="4" for="radio-products"><i class="fa-solid fa-bag-shopping"></i></label>
+          <input type="radio" name="filter" id="radio-buy" value="buy">
+          <label data-category_id="4" for="radio-buy"><i class="fa-solid fa-bag-shopping"></i></label>
         </div>
       </form>
-
       <button id="add-task-btn"><i class="fa-solid fa-circle-plus"></i></button>
-
     </section>
     <section id="new-task">
       <form method="post" action="/tasks" id="task-form">

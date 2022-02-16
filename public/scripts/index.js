@@ -25,10 +25,10 @@ $(() => {
       <div>
         <p class="category-id">${task.name}</p>
         <select name="category_id">
-          <option value="1">films</option>
-          <option value="2">restauraunts</option>
-          <option value="3">books</option>
-          <option value="4">products</option>
+          <option value="1">Watch</option>
+          <option value="2">Eat</option>
+          <option value="3">Read</option>
+          <option value="4">Buy</option>
         </select>
       </div>
       <div>
