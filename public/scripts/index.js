@@ -109,12 +109,18 @@ $(() => {
     });
   });
 
+  $("#task-cancel").on("click", function() {
+    $("#new-task").removeClass("active");
+    $("form").trigger("reset");
+    return false;
+  })
+
   $(document).on("click", ".delete", function() {
     const $deleteBttn = $(this);
     const taskID = $deleteBttn.closest(".task").data("task-id");
     $.post(`/tasks/${taskID}/delete`)
     .then(() => {
-      console.log("delete task successful.");
+      console.log("Delete task successful.");
       loadTasks();
     }).catch((err) => {
       console.log("An error has occured:", err);
@@ -162,4 +168,16 @@ $(() => {
       $(this).text("Save");
     }
   });
+
+  $("#radio-all").on("click", function() {
+    $("#tasks-container").empty();
+    loadTasks();
+  })
+
+  // $("#radio-films").on("click", function() {
+  //   loadTasks();
+  //   // const tasksChildren = Object.keys($("#tasks-container").children()).filter((task) => $(task).data("category-id") === 1);
+  //   console.log(($("#tasks-container").children(".task").filter((task) => $(task).data("category-id") === 1)));
+  //   $("#tasks-container").empty();
+  // })
 });

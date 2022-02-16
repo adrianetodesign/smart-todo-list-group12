@@ -39,7 +39,7 @@
     </header>
     <section id="tasks-header">
 
-      <form action="/tasks/" method="get" id="task-category-select">
+      <form id="task-category-select">
         <div>
           <input type="radio" name="filter" id="radio-all" value="all" checked>
           <label for="radio-all">All</label>
@@ -69,6 +69,7 @@
       <form method="post" action="/tasks" id="task-form">
         <textarea name="body" id="task-text" placeholder="What do you need to do?"></textarea>
         <button type="submit">submit</button>
+        <button id="task-cancel">cancel</button>
       </form>
     </section>
     <section id="tasks-container">
