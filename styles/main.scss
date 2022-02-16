@@ -1,3 +1,5 @@
+@import "./globals";
+
 body {
   //display: flex;
   justify-content: center;
@@ -5,7 +7,8 @@ body {
   min-height: 100vh;
   text-align: center;
 
-  background: #E5E5E5;
+  background: $secondary;
+  color: $light;
   // linear-gradient(
   //   227deg,
   //   rgba(163, 208, 219, 1) 0%,
@@ -18,9 +21,9 @@ body {
 }
 
 Nav {
-  display: flex;
-  background-color: black;
-  color: white;
+  display: none;
+  background-color: $secondary;
+  color: $dark;
   align-items: center;
   justify-content: space-between;
   span {
