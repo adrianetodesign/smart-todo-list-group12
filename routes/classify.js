@@ -85,10 +85,9 @@ const requestGoogle = function(searchTerm) {
             return getClass(3);
           case 'ProductModel':
             return getClass(4);
-          default:
-            return getClass(2);
           }
         }
+        return getClass(2);
       }
     }
 
