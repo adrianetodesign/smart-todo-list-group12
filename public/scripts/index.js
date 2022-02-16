@@ -79,6 +79,10 @@ $(() => {
   };
   loadTasks();
 
+  $("#add-task-btn").on("click", function() {
+    $("#new-task").addClass("active");
+  })
+
   $("#task-form").on("submit", function(e) {
 
     e.preventDefault();
@@ -94,6 +98,7 @@ $(() => {
       .then(() => {
         console.log($postData);
         console.log("task submission successful.");
+        $("#new-task").removeClass("active");
         $("form").trigger("reset");
         loadTasks();
       }).catch((err) => {

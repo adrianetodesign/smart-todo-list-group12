@@ -50,6 +50,7 @@ const requestGoogle = function(searchTerm) {
       'MovieSeries',
       'TVSeries',
       'Book',
+      'BookSeries',
       'Restaurant',
     ];
 
@@ -79,6 +80,8 @@ const requestGoogle = function(searchTerm) {
           case 'Restaurant':
             return getClass(2);
           case 'Book':
+            return getClass(3);
+          case 'BookSeries':
             return getClass(3);
           case 'ProductModel':
             return getClass(4);
