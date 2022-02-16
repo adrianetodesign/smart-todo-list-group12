@@ -152,7 +152,7 @@ module.exports = (db) => {
   });
 
   router.get("/classify/:searchTerm", (req, res) => {
-    const searchTerm = req.params.searchTerm;
+    const searchTerm = req.params.searchTerm.replace(/'/g, "");
 
     classify(searchTerm)
       .then(data => {
