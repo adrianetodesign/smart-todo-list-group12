@@ -51,11 +51,14 @@ $(() => {
   };
 
   //--- Given an array of tasks, renders them in their proper container on the page.
-  const renderTasks = function(tasks) {
+  const renderTasks = function(tasks, categoryID) {
     // Prepend to ensure most recent task is placed on top.
-    for (const task of tasks) {
-      $("#tasks-container").prepend(createTaskElement(task));
+    if (categoryID) {
+      return tasks
+        .filter(task => task.category_id === categoryID)
+        .forEach(task => $("#tasks-container").prepend(createTaskElement(task)));
     }
+    return tasks.forEach(task => $("#tasks-container").prepend(createTaskElement(task)));
   };
 
   const loadUser = function() {
@@ -69,11 +72,11 @@ $(() => {
   };
   loadUser();
 
-  const loadTasks = function() {
+  const loadTasks = function(categoryID) {
     $.get("/tasks")
       .then((data) => {
         $("#tasks-container").empty();
-        renderTasks(data.tasks);
+        renderTasks(data.tasks, categoryID);
       }).catch((err) => {
         console.log("An error has occured:", err);
       });
@@ -97,7 +100,7 @@ $(() => {
         $postData.push({name: "categoryID", value: $taskCategoryID});
         $.post("/tasks", $postData)
           .then(() => {
-            console.log($postData);
+            // console.log($postData);
             console.log("task submission successful.");
             $("#new-task").removeClass("active");
             $("form").trigger("reset");
@@ -170,15 +173,8 @@ $(() => {
     }
   });
 
-  // $("#radio-all").on("click", function() {
-  //   $("#tasks-container").empty();
-  //   loadTasks();
-  // });
+  $('#task-category-select').on("click", "label", function() {
+    loadTasks($(this).data('category_id'));
+  });
 
-  // $("#radio-films").on("click", function() {
-  //   loadTasks();
-  //   // const tasksChildren = Object.keys($("#tasks-container").children()).filter((task) => $(task).data("category-id") === 1);
-  //   console.log(($("#tasks-container").children(".task").filter((task) => $(task).data("category-id") === 1)));
-  //   $("#tasks-container").empty();
-  // })
 });
