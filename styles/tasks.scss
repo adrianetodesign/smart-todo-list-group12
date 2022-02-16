@@ -1,16 +1,25 @@
 @import "./globals";
 
+#background-header {
+  background-color: $secondary;
+  position: sticky;
+  top: 0;
+  padding: 0.4em;
+}
 #tasks-header {
   background-color: $secondary;
+  overflow-x: hidden;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   width: 90vw;
+  height: 4.5em;
   margin: 0 auto 1.5em;
-  padding: 0.2em;
+  padding: 0.4em;
   color: $light;
   font-weight: 700;
+  border-bottom: solid $light;
   form {
     display: flex;
     gap: 1em;
@@ -55,10 +64,10 @@
 #tasks-container {
   display: flex;
   flex-direction: column;
+  background-color: $light;
   .task {
-    background-color: $light;
     color: $dark;
-    border: solid $dark;
+    border-bottom: solid $dark;
     width: 90vw;
     margin: 0.5em auto;
     padding: 0.2em;
