@@ -1,3 +1,4 @@
+/* global $ document timeago */
 // Client facing scripts here
 
 $(() => {
@@ -50,11 +51,14 @@ $(() => {
   };
 
   //--- Given an array of tasks, renders them in their proper container on the page.
-  const renderTasks = function(tasks) {
+  const renderTasks = function(tasks, categoryID) {
     // Prepend to ensure most recent task is placed on top.
-    for (const task of tasks) {
-      $("#tasks-container").prepend(createTaskElement(task));
+    if (categoryID) {
+      return tasks
+        .filter(task => task.category_id === categoryID)
+        .forEach(task => $("#tasks-container").prepend(createTaskElement(task)));
     }
+    return tasks.forEach(task => $("#tasks-container").prepend(createTaskElement(task)));
   };
 
   const loadUser = function() {
@@ -68,16 +72,20 @@ $(() => {
   };
   loadUser();
 
-  const loadTasks = function() {
+  const loadTasks = function(categoryID) {
     $.get("/tasks")
       .then((data) => {
         $("#tasks-container").empty();
-        renderTasks(data.tasks);
+        renderTasks(data.tasks, categoryID);
       }).catch((err) => {
         console.log("An error has occured:", err);
       });
   };
   loadTasks();
+
+  $("#add-task-btn").on("click", function() {
+    $("#new-task").addClass("active");
+  });
 
   $("#task-form").on("submit", function(e) {
 
@@ -87,49 +95,56 @@ $(() => {
     const $taskText = escape($("#task-text").val());
     let $taskCategoryID = '';
     $.get(`tasks/classify/${$taskText}`)
-    .then((data) => {
-      $taskCategoryID = data.classNumber;
-      $postData.push({name: "categoryID", value: $taskCategoryID});
-      $.post("/tasks", $postData)
+      .then((data) => {
+        $taskCategoryID = data.classNumber;
+        $postData.push({name: "categoryID", value: $taskCategoryID});
+        $.post("/tasks", $postData)
+          .then(() => {
+            // console.log($postData);
+            console.log("task submission successful.");
+            $("#new-task").removeClass("active");
+            $("form").trigger("reset");
+            loadTasks();
+          }).catch((err) => {
+            console.log("An error has occured:", err);
+          });
+      }).catch((err) => {
+        console.log("An error has occured:", err);
+      });
+  });
+
+  $("#task-cancel").on("click", function() {
+    $("#new-task").removeClass("active");
+    $("form").trigger("reset");
+    return false;
+  });
+
+  $('#tasks-container').on("click", ".delete", function() {
+    const $deleteBttn = $(this);
+    const taskID = $deleteBttn.closest(".task").data("task-id");
+    $.post(`/tasks/${taskID}/delete`)
       .then(() => {
-        console.log($postData);
-        console.log("task submission successful.");
-        $("form").trigger("reset");
+        console.log("Delete task successful.");
         loadTasks();
       }).catch((err) => {
         console.log("An error has occured:", err);
       });
-    }).catch((err) => {
-      console.log("An error has occured:", err);
-    });
   });
 
-  $(document).on("click", ".delete", function() {
-    const $deleteBttn = $(this);
-    const taskID = $deleteBttn.closest(".task").data("task-id");
-    $.post(`/tasks/${taskID}/delete`)
-    .then(() => {
-      console.log("delete task successful.");
-      loadTasks();
-    }).catch((err) => {
-      console.log("An error has occured:", err);
-    });
-  })
-
-  $(document).on("click", "input[type='checkbox']", function() {
+  $('#tasks-container').on("click", "input[type='checkbox']", function() {
     const $checkComplete = $(this);
     const taskID = $checkComplete.closest(".task").data("task-id");
     $.post(`/tasks/${taskID}/done`)
-    .then(() => {
-      console.log("Toggled is_completed successful.");
-      loadTasks();
-    }).catch((err) => {
-      console.log("An error has occured:", err);
-    });
+      .then(() => {
+        console.log("Toggled is_completed successful.");
+        loadTasks();
+      }).catch((err) => {
+        console.log("An error has occured:", err);
+      });
 
   });
 
-  $(document).on("click", ".edit", function() {
+  $('#tasks-container').on("click", ".edit", function() {
     const $editTask = $(this);
     const $task = $editTask.closest(".task");
     const taskID = $editTask.closest(".task").data("task-id");
@@ -138,18 +153,18 @@ $(() => {
     const $selectCategory = $task.find("select");
     const categoryID = $task.data("category-id");
 
-    if($task.hasClass("edit-mode")) {
+    if ($task.hasClass("edit-mode")) {
       $.post(`/tasks/${taskID}`,
-      $($task).find("select, input[type='text']").serialize()
+        $($task).find("select, input[type='text']").serialize()
       )
-      .then(() => {
-        console.log("Edit Task was successful");
-        $task.removeClass("edit-mode");
-        $(this).text("Edit");
-        loadTasks();
-      }).catch((err) => {
-        console.log("An error has occured:", err);
-      })
+        .then(() => {
+          console.log("Edit Task was successful");
+          $task.removeClass("edit-mode");
+          $(this).text("Edit");
+          loadTasks();
+        }).catch((err) => {
+          console.log("An error has occured:", err);
+        });
     } else {
       $($task).addClass("edit-mode");
       $inputText.val($taskBody.text());
@@ -157,4 +172,9 @@ $(() => {
       $(this).text("Save");
     }
   });
+
+  $('#task-category-select').on("click", "label", function() {
+    loadTasks($(this).data('category_id'));
+  });
+
 });

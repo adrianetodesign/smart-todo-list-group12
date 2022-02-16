@@ -50,6 +50,7 @@ const requestGoogle = function(searchTerm) {
       'MovieSeries',
       'TVSeries',
       'Book',
+      'BookSeries',
       'Restaurant',
     ];
 
@@ -80,12 +81,13 @@ const requestGoogle = function(searchTerm) {
             return getClass(2);
           case 'Book':
             return getClass(3);
+          case 'BookSeries':
+            return getClass(3);
           case 'ProductModel':
             return getClass(4);
-          default:
-            return getClass(2);
           }
         }
+        return getClass(2);
       }
     }
 

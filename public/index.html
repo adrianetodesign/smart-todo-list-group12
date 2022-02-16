@@ -3,6 +3,8 @@
 
   <head>
     <title>Home Page</title>
+    <link rel="shortcut icon" href="#">
+
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -21,7 +23,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="/scripts/index.js"></script>
-    <script type="text/javascript" src="/scripts/utility.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/4.0.2/timeago.min.js" integrity="sha512-SVDh1zH5N9ChofSlNAK43lcNS7lWze6DTVx1JCXH1Tmno+0/1jMpdbR8YDgDUfcUrPp1xyE53G42GFrcM0CMVg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
 
@@ -39,28 +40,41 @@
       <h1><span id="user-name"></span> To-Do List</h1>
     </header>
     <section id="tasks-header">
-      <div>
-        <p>Category</p>
-      </div>
-      <div>
-        <p>Task Name</p>
-      </div>
-      <div>
-        <p>Time Added</p>
-      </div>
-      <div>
-        <p>Done</p>
-      </div>
-      <div>
-      </div>
-    </section>
-    <section id="tasks-container">
+
+      <form id="task-category-select">
+        <div>
+          <input type="radio" name="filter" id="radio-all" value="all" checked>
+          <label for="radio-all">All</label>
+        </div>
+        <div>
+          <input type="radio" name="filter" id="radio-films" value="films">
+          <label data-category_id="1" for="radio-films">Film</label>
+        </div>
+        <div>
+          <input type="radio" name="filter" id="radio-restaurants" value="restaurants">
+          <label data-category_id="2" for="radio-restaurants">Restaurants</label>
+        </div>
+        <div>
+          <input type="radio" name="filter" id="radio-books" value="books">
+          <label data-category_id="3" for="radio-books">Books</label>
+        </div>
+        <div>
+          <input type="radio" name="filter" id="radio-products" value="products">
+          <label data-category_id="4" for="radio-products">Products</label>
+        </div>
+      </form>
+
+      <button id="add-task-btn">Add!</button>
+
     </section>
     <section id="new-task">
       <form method="post" action="/tasks" id="task-form">
         <textarea name="body" id="task-text" placeholder="What do you need to do?"></textarea>
-        <button type="submit">+</button>
+        <button type="submit">submit</button>
+        <button id="task-cancel">cancel</button>
       </form>
+    </section>
+    <section id="tasks-container">
     </section>
   </body>
 </html>
