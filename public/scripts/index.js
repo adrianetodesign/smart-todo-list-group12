@@ -116,7 +116,7 @@ $(() => {
     return false;
   });
 
-  $(document).on("click", ".delete", function() {
+  $('#tasks-container').on("click", ".delete", function() {
     const $deleteBttn = $(this);
     const taskID = $deleteBttn.closest(".task").data("task-id");
     $.post(`/tasks/${taskID}/delete`)
@@ -128,7 +128,7 @@ $(() => {
       });
   });
 
-  $(document).on("click", "input[type='checkbox']", function() {
+  $('#tasks-container').on("click", "input[type='checkbox']", function() {
     const $checkComplete = $(this);
     const taskID = $checkComplete.closest(".task").data("task-id");
     $.post(`/tasks/${taskID}/done`)
@@ -141,7 +141,7 @@ $(() => {
 
   });
 
-  $(document).on("click", ".edit", function() {
+  $('#tasks-container').on("click", ".edit", function() {
     const $editTask = $(this);
     const $task = $editTask.closest(".task");
     const taskID = $editTask.closest(".task").data("task-id");
@@ -170,10 +170,10 @@ $(() => {
     }
   });
 
-  $("#radio-all").on("click", function() {
-    $("#tasks-container").empty();
-    loadTasks();
-  });
+  // $("#radio-all").on("click", function() {
+  //   $("#tasks-container").empty();
+  //   loadTasks();
+  // });
 
   // $("#radio-films").on("click", function() {
   //   loadTasks();
