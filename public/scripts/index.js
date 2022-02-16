@@ -9,21 +9,37 @@ $(() => {
   };
 
   const createTaskElement = function(task) {
-    let $isCompleted = "";
-    let $completedClass = "";
+    let isCompleted = "";
+    let completedClass = "";
+    let categoryIcon = "";
 
     if (task.is_completed) {
-      $isCompleted = 'checked';
-      $completedClass = "completed";
+      isCompleted = 'checked';
+      completedClass = "completed";
     } else {
-      $isCompleted = "";
-      $completedClass = "";
+      isCompleted = "";
+      completedClass = "";
+    }
+
+    switch(task.category_id) {
+      case 1:
+        categoryIcon = "<i class='fa-solid fa-film'></i>";
+        break;
+      case 2:
+        categoryIcon = "<i class='fa-solid fa-utensils'></i>";
+        break;
+      case 3:
+        categoryIcon = "<i class='fa-solid fa-book'></i>";
+        break;
+      case 4:
+        categoryIcon = "<i class='fa-solid fa-bag-shopping'></i>";
+        break;
     }
 
     let $htmlTask = `
     <article class="task" data-task-id=${task.id} data-category-id=${task.category_id}>
       <div>
-        <p class="category-id">${task.name}</p>
+        <p class="category-id">${categoryIcon}<br>${task.name}</p>
         <select name="category_id">
           <option value="1">Watch</option>
           <option value="2">Eat</option>
@@ -33,7 +49,7 @@ $(() => {
         <button class="save"> <i class="fa-solid fa-file-arrow-down"></i> </button>
       </div>
       <div>
-        <p class="task-body ${$completedClass}">${task.body}</p>
+        <p class="task-body ${completedClass}">${task.body}</p>
         <input type="text" name="body">
         <button class="save"> <i class="fa-solid fa-file-arrow-down"></i> </button>
       </div>
@@ -41,7 +57,7 @@ $(() => {
         <p>${timeago.format(new Date(task.time_added))}</p>
       </div>
       <div>
-        <input type="checkbox" ${$isCompleted}>
+        <input type="checkbox" ${isCompleted}>
       </div>
       <div class="edit-features">
         <button class="delete"><i class="fa-solid fa-trash"></i></button>
