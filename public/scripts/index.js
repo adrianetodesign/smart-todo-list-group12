@@ -121,12 +121,12 @@ $(() => {
   });
 
   $('#tasks-container').on("click", ".delete", function() {
-    const $deleteBttn = $(this);
-    const taskID = $deleteBttn.closest(".task").data("task-id");
+    const $taskElement = $(this).closest(".task");
+    const taskID = $taskElement.data("task-id");
     $.post(`/tasks/${taskID}/delete`)
       .then(() => {
         console.log("Delete task successful.");
-        loadTasks();
+        $taskElement.remove();
       }).catch((err) => {
         console.log("An error has occured:", err);
       });
