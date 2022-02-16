@@ -51,24 +51,42 @@
     display: inline-block;
   }
 
-  .task div select {
-    display: none;
+  .task div {
+    text-align:center;
+    select {
+      display: none;
+    }
+    input[type=text]  {
+      display: none;
+    }
+    .save {
+      display: none;
+      text-align: center;
+    }
+    .task-body {
+      cursor: pointer;
+    }
+    .category-id {
+      cursor: pointer;
+    }
   }
 
-  .task div input[type=text]  {
-    display: none;
-  }
-  .task.edit-mode select {
-    display: block;
-  }
-  .task.edit-mode input[type=text] {
-    display: block;
-  }
-  .task.edit-mode .task-body {
-    display: none;
-  }
-  .task.edit-mode .category-id {
-    display: none;
+  div.edit-mode {
+    .save {
+      display: inline-block;
+    }
+    .task-body {
+      display: none;
+    }
+    .category-id {
+      display: none;
+    }
+    input[type=text] {
+      display: inline-block;
+    }
+    select {
+      display: inline-block;
+    }
   }
 
   div:first-child {
