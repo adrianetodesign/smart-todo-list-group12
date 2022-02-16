@@ -66,12 +66,16 @@
         <button id="add-task-btn"><i class="fa-solid fa-circle-plus"></i></button>
       </div>
     </section>
-    <section id="new-task">
-      <form method="post" action="/tasks" id="task-form">
-        <textarea name="body" id="task-text" placeholder="What do you need to do?"></textarea>
-        <button type="submit">submit</button>
-        <button id="task-cancel">cancel</button>
-      </form>
+    <section id="new-task-background">
+      <div id="new-task">
+        <form method="post" action="/tasks" id="task-form">
+          <textarea name="body" id="task-text" placeholder="What do you need to do?"></textarea>
+          <div>
+            <button type="submit">submit</button>
+            <button id="task-cancel">cancel</button>
+          </div>
+        </form>
+      </div>
     </section>
     <section id="tasks-container">
     </section>
