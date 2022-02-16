@@ -8,7 +8,6 @@
 }
 #tasks-header {
   background-color: $secondary;
-  overflow-x: hidden;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -75,30 +74,29 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
+    div {
+      text-align:center;
+      select {
+        display: none;
+      }
+      input[type=text]  {
+        display: none;
+      }
+      .save {
+        display: none;
+        text-align: center;
+      }
+      .task-body {
+        cursor: pointer;
+      }
+      .category-id {
+        cursor: pointer;
+      }
+    }
   }
   .edit-features {
     cursor: pointer;
     display: inline-block;
-  }
-
-  .task div {
-    text-align:center;
-    select {
-      display: none;
-    }
-    input[type=text]  {
-      display: none;
-    }
-    .save {
-      display: none;
-      text-align: center;
-    }
-    .task-body {
-      cursor: pointer;
-    }
-    .category-id {
-      cursor: pointer;
-    }
   }
 
   div.edit-mode {
@@ -128,7 +126,7 @@
   }
   div:nth-child(3) {
     width: 20%;
-    opacity: 0.7;
+    color: rgba($dark, 0.7);
   }
   div:nth-child(4) {
     width: 10%;
