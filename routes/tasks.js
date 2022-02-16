@@ -204,8 +204,8 @@ module.exports = (db) => {
       SELECT tasks.id AS id, category_id, name, body, time_added, is_completed
       FROM tasks
       JOIN categories ON category_id = categories.id
-      WHERE user_id = $1 AND is_archived = false;
-      `;
+      WHERE user_id = $1 AND is_archived = false
+      ORDER BY time_added ASC; `;
 
     const values = [userID];
     console.log(values);
