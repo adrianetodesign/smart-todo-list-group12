@@ -18,7 +18,7 @@ $(() => {
 
     e.preventDefault();
     let $postData = $(this).serializeArray();
-
+    const radioCategoryID = $("input[type=radio]:checked").siblings().data('category_id');
     const $taskText = escape($("#task-text").val());
     let $taskCategoryID = '';
     $.get(`tasks/classify/${$taskText}`)
@@ -31,7 +31,11 @@ $(() => {
             console.log("task submission successful.");
             $("#new-task").removeClass("active");
             $("form").trigger("reset");
-            loadTasks();
+            if ($taskCategoryID === radioCategoryID) {
+              loadTasks(radioCategoryID);
+            } else {
+              loadTasks();
+            }
           }).catch((err) => {
             console.log("An error has occured:", err);
           });
@@ -95,12 +99,17 @@ $(() => {
     const $task = $saveBtn.closest(".task");
     const taskID = $task.data("task-id");
     const $taskDiv = $saveBtn.closest("div");
+    const radioCategoryID = $("input[type=radio]:checked").siblings().data('category_id');
     $.post(`/tasks/${taskID}`,
       $($taskDiv).find("select, input[type='text']").serialize()
     ).then(() => {
       console.log("Edit Task was successful");
       $taskDiv.removeClass("edit-mode");
-      loadTasks();
+      if (radioCategoryID) {
+        loadTasks(radioCategoryID);
+      } else {
+        loadTasks();
+      }
     }).catch((err) => {
       console.log("An error has occured:", err);
     });
