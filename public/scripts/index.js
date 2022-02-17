@@ -59,7 +59,7 @@ $(() => {
       <div>
         <input type="checkbox" ${isCompleted}>
       </div>
-      <div class="edit-features">
+      <div>
         <button class="delete"><i class="fa-solid fa-trash"></i></button>
       </div>
     </article>
