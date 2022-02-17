@@ -2,9 +2,34 @@ const request = require('request-promise-native');
 
 const classify = function(searchTerm) {
   // return requestWolframAlpha(searchTerm);
-  return requestGoogle(searchTerm);
-
+  // return requestGoogle(searchTerm);
+  return requestYelp(searchTerm);
 };
+
+const requestYelp = function(searchTerm) {
+  const options = {
+    uri: 'https://api.yelp.com/v3/businesses/search?',
+    headers: {
+      Authorization: `Bearer ${process.env.YELP}`
+    },
+    qs: {
+      term: searchTerm,
+      location: 'Vancouver',
+      categories: 'restaurants',
+      // eslint-disable-next-line camelcase
+      sort_by: 'best_match',
+      limit: 3
+    }
+  };
+
+  return request(options).then(data => {
+    const obj = JSON.parse(data);
+    console.log({obj});
+    // data processing here, maybe a regex test of search term against businesses[i].name, and return boolean
+    return obj;
+  });
+};
+
 
 /* *
 * const requestWolframAlpha = function(searchTerm) {
