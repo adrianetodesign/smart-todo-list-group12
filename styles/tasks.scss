@@ -88,9 +88,18 @@
       }
       .task-body {
         cursor: pointer;
+        &:hover {
+          color:rgba($dark, 0.7);
+        }
+        i {
+          display: none;
+        }
       }
       .category-id {
         cursor: pointer;
+        &:hover {
+          color:rgba($dark, 0.7);
+        }
       }
     }
   }
