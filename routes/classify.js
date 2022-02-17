@@ -2,8 +2,8 @@ const request = require('request-promise-native');
 
 const classify = function(searchTerm) {
   // return requestWolframAlpha(searchTerm);
-  // return requestGoogle(searchTerm);
-  return requestYelp(searchTerm);
+  return requestGoogle(searchTerm);
+  // return requestYelp(searchTerm);
 };
 
 const requestYelp = function(searchTerm) {
@@ -23,13 +23,16 @@ const requestYelp = function(searchTerm) {
   };
 
   return request(options).then(data => {
+    const regex = new RegExp(`${searchTerm}`, 'i');
     const obj = JSON.parse(data);
-    console.log({obj});
-    // data processing here, maybe a regex test of search term against businesses[i].name, and return boolean
-    return obj;
+    for (let searchResult of obj.businesses) {
+      if (regex.test(searchResult.name)) {
+        return true;
+      }
+    }
+    return false;
   });
 };
-
 
 /* *
 * const requestWolframAlpha = function(searchTerm) {
@@ -66,7 +69,7 @@ const requestGoogle = function(searchTerm) {
     const outputArr = [];
     const results = JSON.parse(data).itemListElement;
     results.forEach(arrItem => outputArr.push(arrItem.result['@type']));
-
+    console.log({outputArr});
     // console.log({outputArr});
 
     const interesting = [
@@ -112,20 +115,12 @@ const requestGoogle = function(searchTerm) {
             return getClass(4);
           }
         }
-        return getClass(2);
       }
     }
-
-    // types to search for are
-    // ProductModel
-    // Movie
-    // MovieSeries
-    // TVSeries
-    // Book
-
-    // console.log({outputArr});
-
-    return outputArr;
+    if (requestYelp(searchTerm)) {
+      return getClass(2);
+    }
+    return getClass(4);
   });
 };
 
