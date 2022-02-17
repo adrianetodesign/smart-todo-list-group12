@@ -1,31 +1,37 @@
 const request = require('request-promise-native');
 
 const classify = function(searchTerm) {
-  // return requestWolframAlpha(searchTerm);
   return requestGoogle(searchTerm);
-
 };
 
-/* *
-* const requestWolframAlpha = function(searchTerm) {
-*  //  'https://api.wolframalpha.com/v2/query?appid=TY79PP-25XWKY68LE&input=the%20hobbit&output=json'
-*  const options = {
-*    uri: 'http://api.wolframalpha.com/v2/query?',
-*    qs: {
-*      appid: process.env.WOLFRAM_ALPHA,
-*      input: searchTerm,
-*      format: 'plaintext',
-*      output: 'json'
-*    }
-*  };
-*
-*  return request(options).then(data => {
-*    const queryResult = JSON.parse(data).queryresult.datatypes;
-*    const classes = queryResult.split(',');
-*    return classes;
-*  });
-* };
-* */
+const requestYelp = function(searchTerm) {
+  console.log('Yelp is being called');
+  const options = {
+    uri: 'https://api.yelp.com/v3/businesses/search?',
+    headers: {
+      Authorization: `Bearer ${process.env.YELP}`
+    },
+    qs: {
+      term: searchTerm,
+      location: 'Vancouver',
+      categories: 'restaurants',
+      sort_by: 'best_match',
+      limit: 3
+    }
+  };
+
+  return request(options).then(data => {
+    const regex = new RegExp(`${searchTerm}`, 'i');
+    const obj = JSON.parse(data);
+    for (let searchResult of obj.businesses) {
+      if (regex.test(searchResult.name)) {
+        console.log(searchResult.name);
+        return { classNumber: 2, className: 'restaurants'};
+      }
+    }
+    return { classNumber: 4, className: 'products'};
+  });
+};
 
 const requestGoogle = function(searchTerm) {
   const options = {
@@ -41,8 +47,7 @@ const requestGoogle = function(searchTerm) {
     const outputArr = [];
     const results = JSON.parse(data).itemListElement;
     results.forEach(arrItem => outputArr.push(arrItem.result['@type']));
-
-    // console.log({outputArr});
+    console.log({outputArr});
 
     const interesting = [
       'ProductModel',
@@ -87,20 +92,9 @@ const requestGoogle = function(searchTerm) {
             return getClass(4);
           }
         }
-        return getClass(2);
       }
     }
-
-    // types to search for are
-    // ProductModel
-    // Movie
-    // MovieSeries
-    // TVSeries
-    // Book
-
-    // console.log({outputArr});
-
-    return outputArr;
+    return requestYelp(searchTerm);
   });
 };
 
