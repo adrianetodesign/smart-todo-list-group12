@@ -18,13 +18,14 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    font-size: 1.3em;
+    font-size: 1rem;
     textarea {
       background: transparent;
       border: none;
       resize: none;
       height: 1.5em;
-      text-align: center;
+      text-align: left;
+      padding-left: 1rem;
       width:70vw;
     }
   }
@@ -38,4 +39,16 @@
 
 #new-task.active {
   display: inline-block;
+}
+
+@media only screen and (min-width: 1024px) {
+  #new-task {
+    width: 920px;
+    form {
+      font-size: 1.3em;
+      textarea {
+        width: 720px;
+      }
+    }
+  }
 }

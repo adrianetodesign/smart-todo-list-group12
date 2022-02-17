@@ -27,9 +27,9 @@
   label {
     cursor: pointer;
     background-color: $secondary;
-    font-size: 1.5em;
-    padding: 0.5em 1em;
-    border-radius: 0.5em;
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
     transition: all ease-in-out 210ms;
     &:hover {
       opacity: 0.7;
@@ -51,8 +51,8 @@
     color: $light;
     cursor: pointer;
     border: none;
-    font-size: 2em;
-    border-radius: 0.5em;
+    font-size: 1.5rem;
+    border-radius: 0.5rem;
     transition: all cubic-bezier(0.175, 0.885, 0.32, 1.275) 210ms;
     &:hover {
       transform: scale(1.5);
@@ -119,8 +119,8 @@
       }
       input[type="checkbox"] {
         background-color: none;
-        height: 1.5em;
-        width: 1.5em;
+        height: 1.5rem;
+        width: 1.5rem;
         -webkit-appearance: none;
         -moz-appearance: none;
         -o-appearance: none;
@@ -164,12 +164,15 @@
     width:15%;
   }
   div:nth-child(2) {
+    text-align: left;
+    padding-left: 1em;
     width: 45%;
-    font-size: 1.3em;
+    font-size: 1.0rem;
   }
   div:nth-child(3) {
     width: 20%;
     color: rgba($dark, 0.7);
+    font-size: 0.8rem;
   }
   div:nth-child(4) {
     width: 10%;
@@ -182,4 +185,31 @@
 .completed {
   text-decoration: line-through;
   // opacity: 0.5;
+}
+@media only screen and (min-width: 1024px) {
+  #tasks-header {
+    width: $desktop-width;
+    label {
+      font-size: 1.5em;
+      padding: 0.5em 1em;
+    }
+    button {
+      font-size: 2em;
+    }
+  }
+  #tasks-container {
+    .task {
+      width: $desktop-width;
+     input[type="checkbox"] {
+       height: 1.5em;
+       width: 1.5em;
+      }
+    }
+    div:nth-child(2) {
+      font-size: 1.3em;
+    }
+    div:nth-child(3) {
+      font-size: 1em;
+    }
+  }
 }
