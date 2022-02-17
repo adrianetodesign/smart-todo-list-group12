@@ -40,6 +40,7 @@ $(() => {
               $radioCategory.prop("checked", true);
             } else {
               loadTasks();
+              $("#radio-all").prop("checked", true);
             }
           }).catch((err) => {
             console.log("An error has occured:", err);
@@ -117,11 +118,12 @@ $(() => {
     ).then(() => {
       console.log("Edit Task was successful");
       $taskDiv.removeClass("edit-mode");
-      if (radioCategoryID) {
+      if (radioCategoryID === taskID) {
         loadTasks(radioCategoryID);
         $radioCategory.prop("checked");
       } else {
         loadTasks();
+        $("#radio-all").prop("checked", true);
       }
     }).catch((err) => {
       console.log("An error has occured:", err);
