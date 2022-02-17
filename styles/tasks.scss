@@ -110,6 +110,9 @@
         }
       }
     }
+    &:last-child {
+      border-bottom: none;
+    }
   }
   .edit-features {
     cursor: pointer;
