@@ -7,6 +7,7 @@ const classify = function(searchTerm) {
 };
 
 const requestYelp = function(searchTerm) {
+  console.log('Yelp is being called');
   const options = {
     uri: 'https://api.yelp.com/v3/businesses/search?',
     headers: {
@@ -27,10 +28,11 @@ const requestYelp = function(searchTerm) {
     const obj = JSON.parse(data);
     for (let searchResult of obj.businesses) {
       if (regex.test(searchResult.name)) {
-        return true;
+        console.log(searchResult.name);
+        return { classNumber: 2, className: 'restaurants'};
       }
     }
-    return false;
+    return { classNumber: 4, className: 'products'};
   });
 };
 
@@ -70,7 +72,6 @@ const requestGoogle = function(searchTerm) {
     const results = JSON.parse(data).itemListElement;
     results.forEach(arrItem => outputArr.push(arrItem.result['@type']));
     console.log({outputArr});
-    // console.log({outputArr});
 
     const interesting = [
       'ProductModel',
@@ -117,10 +118,7 @@ const requestGoogle = function(searchTerm) {
         }
       }
     }
-    if (requestYelp(searchTerm)) {
-      return getClass(2);
-    }
-    return getClass(4);
+    return requestYelp(searchTerm);
   });
 };
 
