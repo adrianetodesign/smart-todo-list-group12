@@ -1,10 +1,13 @@
 /* global $ loadUser loadTasks */
 
 $(() => {
+  // Found in scripts/user.js
   loadUser();
 
+  // Found in scripts/render.js
   loadTasks();
 
+  //--- Open task-form on clicking add.
   $("#add-task-btn").on("click", function() {
     $("#new-task").addClass("active");
     $("html, body").animate({
@@ -14,12 +17,13 @@ $(() => {
     });
   });
 
+  //--- Post request for data in task-form.
   $("#task-form").on("submit", function(e) {
+    const $radioCategory = $("input[type=radio]:checked");
+    const radioCategoryID = $radioCategory.siblings().data('category_id');
 
     e.preventDefault();
     let $postData = $(this).serializeArray();
-    const $radioCategory = $("input[type=radio]:checked");
-    const radioCategoryID = $radioCategory.siblings().data('category_id');
     const $taskText = escape($("#task-text").val());
     let $taskCategoryID = '';
     $.get(`tasks/classify/${$taskText}`)
@@ -28,7 +32,6 @@ $(() => {
         $postData.push({name: "categoryID", value: $taskCategoryID});
         $.post("/tasks", $postData)
           .then(() => {
-            // console.log($postData);
             console.log("task submission successful.");
             $("#new-task").removeClass("active");
             $("form").trigger("reset");
@@ -46,12 +49,14 @@ $(() => {
       });
   });
 
+  //--- Close task-form on clicking cancel.
   $("#task-cancel").on("click", function() {
     $("#new-task").removeClass("active");
     $("form").trigger("reset");
     return false;
   });
 
+  //--- Post request for delete task.
   $('#tasks-container').on("click", ".delete", function() {
     const $taskElement = $(this).closest(".task");
     const taskID = $taskElement.data("task-id");
@@ -64,6 +69,7 @@ $(() => {
       });
   });
 
+  //--- Post request for toggle complete.
   $('#tasks-container').on("click", "input[type='checkbox']", function() {
     const $taskElement = $(this).closest('.task');
     const taskID = $taskElement.data("task-id");
@@ -77,6 +83,7 @@ $(() => {
 
   });
 
+  //--- Add .edit-mode class to task-body when clicked.
   $("#tasks-container").on("click", ".task-body", function() {
     const $taskBody = $(this);
     const $taskDiv = $taskBody.closest("div");
@@ -86,6 +93,7 @@ $(() => {
     $inputText.val($taskBody.text()).focus();
   });
 
+  //--- Add .edit-mode class to category-id when clicked.
   $("#tasks-container").on("click", ".category-id", function() {
     const $taskCategoryID = $(this);
     const $taskDiv = $taskCategoryID.closest("div");
@@ -96,6 +104,7 @@ $(() => {
     $select.val(categoryID).focus();
   });
 
+  //--- Post request for updating task-values when save button is clicked.
   $("#tasks-container").on("click", ".save", function() {
     const $saveBtn = $(this);
     const $task = $saveBtn.closest(".task");
@@ -119,6 +128,7 @@ $(() => {
     });
   });
 
+  //--- Filter category on label click.
   $('#task-category-select').on("click", "label", function() {
     loadTasks($(this).data('category_id'));
   });
