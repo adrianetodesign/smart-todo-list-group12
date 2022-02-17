@@ -15,6 +15,7 @@ const requestYelp = function(searchTerm) {
       term: searchTerm,
       location: 'Vancouver',
       categories: 'restaurants',
+      // eslint-disable-next-line camelcase
       sort_by: 'best_match',
       limit: 3
     }
@@ -47,7 +48,6 @@ const requestGoogle = function(searchTerm) {
     const outputArr = [];
     const results = JSON.parse(data).itemListElement;
     results.forEach(arrItem => outputArr.push(arrItem.result['@type']));
-    console.log({outputArr});
 
     const interesting = [
       'ProductModel',
