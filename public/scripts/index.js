@@ -9,41 +9,58 @@ $(() => {
   };
 
   const createTaskElement = function(task) {
-    let $isCompleted = "";
-    let $completedClass = "";
+    let isCompleted = "";
+    let completedClass = "";
+    let categoryIcon = "";
 
     if (task.is_completed) {
-      $isCompleted = 'checked';
-      $completedClass = "completed";
+      isCompleted = 'checked';
+      completedClass = "completed";
     } else {
-      $isCompleted = "";
-      $completedClass = "";
+      isCompleted = "";
+      completedClass = "";
+    }
+
+    switch(task.category_id) {
+      case 1:
+        categoryIcon = "<i class='fa-solid fa-film'></i>";
+        break;
+      case 2:
+        categoryIcon = "<i class='fa-solid fa-utensils'></i>";
+        break;
+      case 3:
+        categoryIcon = "<i class='fa-solid fa-book'></i>";
+        break;
+      case 4:
+        categoryIcon = "<i class='fa-solid fa-bag-shopping'></i>";
+        break;
     }
 
     let $htmlTask = `
     <article class="task" data-task-id=${task.id} data-category-id=${task.category_id}>
       <div>
-        <p class="category-id">${task.name}</p>
+        <p class="category-id">${categoryIcon}<br>${task.name}</p>
         <select name="category_id">
           <option value="1">Watch</option>
           <option value="2">Eat</option>
           <option value="3">Read</option>
           <option value="4">Buy</option>
         </select>
+        <button class="save"> <i class="fa-solid fa-file-arrow-down"></i> </button>
       </div>
       <div>
-        <p class="task-body ${$completedClass}">${task.body}</p>
+        <p class="task-body ${completedClass}">${task.body}</p>
         <input type="text" name="body">
+        <button class="save"> <i class="fa-solid fa-file-arrow-down"></i> </button>
       </div>
       <div>
         <p>${timeago.format(new Date(task.time_added))}</p>
       </div>
       <div>
-        <input type="checkbox" ${$isCompleted}>
+        <input type="checkbox" ${isCompleted}>
       </div>
-      <div class="edit-features">
-        <button class="edit">Edit</button>
-        <button class="delete">Delete</button>
+      <div>
+        <button class="delete"><i class="fa-solid fa-trash"></i></button>
       </div>
     </article>
     `;
@@ -85,6 +102,11 @@ $(() => {
 
   $("#add-task-btn").on("click", function() {
     $("#new-task").addClass("active");
+    $("html, body").animate({
+      scrollTop: $("header").offset().top
+    },500, function() {
+    $("#task-text").focus();
+    });
   });
 
   $("#task-form").on("submit", function(e) {
@@ -144,33 +166,39 @@ $(() => {
 
   });
 
-  $('#tasks-container').on("click", ".edit", function() {
-    const $editTask = $(this);
-    const $task = $editTask.closest(".task");
-    const taskID = $editTask.closest(".task").data("task-id");
-    const $taskBody = $task.find("p.task-body");
+  $("#tasks-container").on("click", ".task-body", function() {
+    const $taskBody = $(this);
+    const $taskDiv = $taskBody.closest("div");
+    const $task = $taskBody.closest(".task");
     const $inputText = $task.find("input[type='text']");
-    const $selectCategory = $task.find("select");
-    const categoryID = $task.data("category-id");
+    $($taskDiv).addClass("edit-mode");
+    $inputText.val($taskBody.text()).focus();
+  })
 
-    if ($task.hasClass("edit-mode")) {
-      $.post(`/tasks/${taskID}`,
-        $($task).find("select, input[type='text']").serialize()
-      )
-        .then(() => {
-          console.log("Edit Task was successful");
-          $task.removeClass("edit-mode");
-          $(this).text("Edit");
-          loadTasks();
-        }).catch((err) => {
-          console.log("An error has occured:", err);
-        });
-    } else {
-      $($task).addClass("edit-mode");
-      $inputText.val($taskBody.text());
-      $selectCategory.val(categoryID);
-      $(this).text("Save");
-    }
+  $("#tasks-container").on("click", ".category-id", function() {
+    const $taskCategoryID = $(this);
+    const $taskDiv = $taskCategoryID.closest("div");
+    const $task = $taskCategoryID.closest(".task");
+    const $select = $task.find("select");
+    const categoryID = $task.data("category-id");
+    $($taskDiv).addClass("edit-mode");
+    $select.val(categoryID).focus();
+  });
+
+  $("#tasks-container").on("click", ".save", function() {
+    const $saveBtn = $(this);
+    const $task = $saveBtn.closest(".task");
+    const taskID = $task.data("task-id");
+    const $taskDiv = $saveBtn.closest("div");
+    $.post(`/tasks/${taskID}`,
+        $($taskDiv).find("select, input[type='text']").serialize()
+      ).then(() => {
+        console.log("Edit Task was successful");
+        $taskDiv.removeClass("edit-mode");
+        loadTasks();
+      }).catch((err) => {
+        console.log("An error has occured:", err);
+      });
   });
 
   $('#task-category-select').on("click", "label", function() {

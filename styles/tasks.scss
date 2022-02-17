@@ -1,5 +1,11 @@
 @import "./globals";
 
+#background-header {
+  background-color: $secondary;
+  position: sticky;
+  top: 0;
+  padding: 0.4em;
+}
 #tasks-header {
   background-color: $secondary;
   display: flex;
@@ -7,10 +13,13 @@
   align-items: center;
   justify-content: space-between;
   width: 90vw;
+  height: 4.5em;
   margin: 0 auto 1.5em;
-  padding: 0.2em;
+  padding: 0.4em;
   color: $light;
   font-weight: 700;
+  z-index: 1;
+  border-bottom: solid $light;
   form {
     display: flex;
     gap: 1em;
@@ -18,9 +27,9 @@
   label {
     cursor: pointer;
     background-color: $secondary;
-    font-size: 1.5em;
-    padding: 0.5em 1em;
-    border-radius: 0.5em;
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
     transition: all ease-in-out 210ms;
     &:hover {
       opacity: 0.7;
@@ -42,8 +51,8 @@
     color: $light;
     cursor: pointer;
     border: none;
-    font-size: 4em;
-    border-radius: 0.5em;
+    font-size: 1.5rem;
+    border-radius: 0.5rem;
     transition: all cubic-bezier(0.175, 0.885, 0.32, 1.275) 210ms;
     &:hover {
       transform: scale(1.5);
@@ -55,10 +64,10 @@
 #tasks-container {
   display: flex;
   flex-direction: column;
+  background-color: $light;
   .task {
-    background-color: $light;
     color: $dark;
-    border: solid $dark;
+    border-bottom: solid $dark;
     width: 90vw;
     margin: 0.5em auto;
     padding: 0.2em;
@@ -66,42 +75,104 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-  }
-  .edit-features {
-    cursor: pointer;
-    display: inline-block;
+    div {
+      text-align:center;
+      select {
+        display: none;
+      }
+      input[type=text]  {
+        display: none;
+      }
+      .save {
+        display: none;
+        text-align: center;
+      }
+      .task-body {
+        cursor: pointer;
+        &:hover {
+          color:rgba($dark, 0.7);
+        }
+        i {
+          display: none;
+        }
+      }
+      .category-id {
+        cursor: pointer;
+        &:hover {
+          color:rgba($dark, 0.7);
+        }
+      }
+      button {
+        border: none;
+        background: none;
+      }
+      button.delete {
+        font-size: 1.5em;
+        &:hover {
+          color: red;
+        }
+      }
+      button.save {
+          &:hover {
+            color: $secondary;
+          }
+      }
+      input[type="checkbox"] {
+        background-color: none;
+        height: 1.5rem;
+        width: 1.5rem;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -o-appearance: none;
+        appearance: none;
+        border: 1px solid $dark;
+        border-radius: 4px;
+        outline: none;
+        transition-duration: 0.3s;
+        background-color: $light;
+        cursor: pointer;
+      }
+      input[type="checkbox"]:checked {
+        background-color: $secondary;
+        clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+      }
+    }
+    &:last-child {
+      border-bottom: none;
+    }
   }
 
-  .task div select {
-    display: none;
-  }
-
-  .task div input[type=text]  {
-    display: none;
-  }
-  .task.edit-mode select {
-    display: block;
-  }
-  .task.edit-mode input[type=text] {
-    display: block;
-  }
-  .task.edit-mode .task-body {
-    display: none;
-  }
-  .task.edit-mode .category-id {
-    display: none;
+  div.edit-mode {
+    .save {
+      display: inline-block;
+    }
+    .task-body {
+      display: none;
+    }
+    .category-id {
+      display: none;
+    }
+    input[type="text"] {
+      display: inline-block;
+    }
+    select {
+      display: inline-block;
+    }
   }
 
   div:first-child {
     width:15%;
   }
   div:nth-child(2) {
+    text-align: left;
+    padding-left: 1em;
     width: 45%;
-    font-size: 1.3em;
+    font-size: 1.0rem;
   }
   div:nth-child(3) {
     width: 20%;
-    opacity: 0.7;
+    color: rgba($dark, 0.7);
+    font-size: 0.8rem;
   }
   div:nth-child(4) {
     width: 10%;
@@ -114,4 +185,31 @@
 .completed {
   text-decoration: line-through;
   // opacity: 0.5;
+}
+@media only screen and (min-width: 1024px) {
+  #tasks-header {
+    width: $desktop-width;
+    label {
+      font-size: 1.5em;
+      padding: 0.5em 1em;
+    }
+    button {
+      font-size: 2em;
+    }
+  }
+  #tasks-container {
+    .task {
+      width: $desktop-width;
+     input[type="checkbox"] {
+       height: 1.5em;
+       width: 1.5em;
+      }
+    }
+    div:nth-child(2) {
+      font-size: 1.3em;
+    }
+    div:nth-child(3) {
+      font-size: 1em;
+    }
+  }
 }
