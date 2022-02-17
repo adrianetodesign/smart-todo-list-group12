@@ -59,7 +59,7 @@ $(() => {
       <div>
         <input type="checkbox" ${isCompleted}>
       </div>
-      <div class="edit-features">
+      <div>
         <button class="delete"><i class="fa-solid fa-trash"></i></button>
       </div>
     </article>
@@ -102,6 +102,11 @@ $(() => {
 
   $("#add-task-btn").on("click", function() {
     $("#new-task").addClass("active");
+    $("html, body").animate({
+      scrollTop: $("header").offset().top
+    },500, function() {
+    $("#task-text").focus();
+    });
   });
 
   $("#task-form").on("submit", function(e) {
@@ -178,7 +183,7 @@ $(() => {
     const categoryID = $task.data("category-id");
     $($taskDiv).addClass("edit-mode");
     $select.val(categoryID).focus();
-  })
+  });
 
   $("#tasks-container").on("click", ".save", function() {
     const $saveBtn = $(this);
@@ -194,7 +199,7 @@ $(() => {
       }).catch((err) => {
         console.log("An error has occured:", err);
       });
-  })
+  });
 
   $('#task-category-select').on("click", "label", function() {
     loadTasks($(this).data('category_id'));
