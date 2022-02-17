@@ -21,19 +21,19 @@ $(() => {
       completedClass = "";
     }
 
-    switch(task.category_id) {
-      case 1:
-        categoryIcon = "<i class='fa-solid fa-film'></i>";
-        break;
-      case 2:
-        categoryIcon = "<i class='fa-solid fa-utensils'></i>";
-        break;
-      case 3:
-        categoryIcon = "<i class='fa-solid fa-book'></i>";
-        break;
-      case 4:
-        categoryIcon = "<i class='fa-solid fa-bag-shopping'></i>";
-        break;
+    switch (task.category_id) {
+    case 1:
+      categoryIcon = "<i class='fa-solid fa-film'></i>";
+      break;
+    case 2:
+      categoryIcon = "<i class='fa-solid fa-utensils'></i>";
+      break;
+    case 3:
+      categoryIcon = "<i class='fa-solid fa-book'></i>";
+      break;
+    case 4:
+      categoryIcon = "<i class='fa-solid fa-bag-shopping'></i>";
+      break;
     }
 
     let $htmlTask = `
@@ -105,7 +105,7 @@ $(() => {
     $("html, body").animate({
       scrollTop: $("header").offset().top
     },500, function() {
-    $("#task-text").focus();
+      $("#task-text").focus();
     });
   });
 
@@ -173,7 +173,7 @@ $(() => {
     const $inputText = $task.find("input[type='text']");
     $($taskDiv).addClass("edit-mode");
     $inputText.val($taskBody.text()).focus();
-  })
+  });
 
   $("#tasks-container").on("click", ".category-id", function() {
     const $taskCategoryID = $(this);
@@ -191,14 +191,14 @@ $(() => {
     const taskID = $task.data("task-id");
     const $taskDiv = $saveBtn.closest("div");
     $.post(`/tasks/${taskID}`,
-        $($taskDiv).find("select, input[type='text']").serialize()
-      ).then(() => {
-        console.log("Edit Task was successful");
-        $taskDiv.removeClass("edit-mode");
-        loadTasks();
-      }).catch((err) => {
-        console.log("An error has occured:", err);
-      });
+      $($taskDiv).find("select, input[type='text']").serialize()
+    ).then(() => {
+      console.log("Edit Task was successful");
+      $taskDiv.removeClass("edit-mode");
+      loadTasks();
+    }).catch((err) => {
+      console.log("An error has occured:", err);
+    });
   });
 
   $('#task-category-select').on("click", "label", function() {
