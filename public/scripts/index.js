@@ -183,7 +183,7 @@ $(() => {
     const categoryID = $task.data("category-id");
     $($taskDiv).addClass("edit-mode");
     $select.val(categoryID).focus();
-  })
+  });
 
   $("#tasks-container").on("click", ".save", function() {
     const $saveBtn = $(this);
@@ -199,7 +199,7 @@ $(() => {
       }).catch((err) => {
         console.log("An error has occured:", err);
       });
-  })
+  });
 
   $('#task-category-select').on("click", "label", function() {
     loadTasks($(this).data('category_id'));
