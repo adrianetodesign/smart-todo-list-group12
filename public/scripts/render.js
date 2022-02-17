@@ -1,4 +1,5 @@
 /* global $ timeago */
+
 const createTaskElement = function(task) {
   let isCompleted = "";
   let completedClass = "";
