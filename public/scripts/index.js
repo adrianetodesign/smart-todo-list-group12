@@ -18,7 +18,8 @@ $(() => {
 
     e.preventDefault();
     let $postData = $(this).serializeArray();
-    const radioCategoryID = $("input[type=radio]:checked").siblings().data('category_id');
+    const $radioCategory = $("input[type=radio]:checked");
+    const radioCategoryID = $radioCategory.siblings().data('category_id');
     const $taskText = escape($("#task-text").val());
     let $taskCategoryID = '';
     $.get(`tasks/classify/${$taskText}`)
@@ -33,6 +34,7 @@ $(() => {
             $("form").trigger("reset");
             if ($taskCategoryID === radioCategoryID) {
               loadTasks(radioCategoryID);
+              $radioCategory.prop("checked", true);
             } else {
               loadTasks();
             }
@@ -99,7 +101,8 @@ $(() => {
     const $task = $saveBtn.closest(".task");
     const taskID = $task.data("task-id");
     const $taskDiv = $saveBtn.closest("div");
-    const radioCategoryID = $("input[type=radio]:checked").siblings().data('category_id');
+    const $radioCategory = $("input[type=radio]:checked");
+    const radioCategoryID = $radioCategory.siblings().data('category_id');
     $.post(`/tasks/${taskID}`,
       $($taskDiv).find("select, input[type='text']").serialize()
     ).then(() => {
@@ -107,6 +110,7 @@ $(() => {
       $taskDiv.removeClass("edit-mode");
       if (radioCategoryID) {
         loadTasks(radioCategoryID);
+        $radioCategory.prop("checked");
       } else {
         loadTasks();
       }
