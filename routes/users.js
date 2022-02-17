@@ -10,7 +10,12 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users WHERE id = ${req.cookies.userID};`)
+    const userID = req.cookies.userID;
+    if (!userID) {
+      res.redirect('/login');
+      return;
+    }
+    db.query(`SELECT * FROM users WHERE id = ${userID};`)
       .then(data => {
         const users = data.rows;
         res.json({ users });
