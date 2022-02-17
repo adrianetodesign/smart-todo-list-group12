@@ -101,6 +101,14 @@
           color:rgba($dark, 0.7);
         }
       }
+      button {
+        border: none;
+        background: none;
+        font-size: 1.5em;
+        &:hover {
+          color: red;
+        }
+      }
     }
   }
   .edit-features {
