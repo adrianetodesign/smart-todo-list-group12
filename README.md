@@ -4,14 +4,16 @@ This project is the midterm project for Lighthouse Labs' Web Development Bootcam
 
 ## Table of Contents
 
-- [Overview)[#overview]
+- [Overview](#overview)
   - [Project Goals](#project-goals)
   - [Screenshots](#screenshots)
+  - [Getting Started](#getting-started)
 - [Process](#process)
   - [Built With](#built-with)
   - [Learning Takeaways](#learning-takeaways)
   - [Known Issues](#known-issues)
   - [Further Development](#further-development)
+  - [Dependencies](#dependencies)
 - [Authors](#authors)
 
 ## Overview
@@ -38,7 +40,7 @@ Editing a task
 
 ![Editing a task](./docs/edit-tasks.gif)
 
-## Getting Started
+### Getting Started
 1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`.
 2. Update the .env file with your correct local information.
 4. Install all dependencies: `npm install`
