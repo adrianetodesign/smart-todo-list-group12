@@ -118,7 +118,7 @@ $(() => {
     ).then(() => {
       console.log("Edit Task was successful");
       $taskDiv.removeClass("edit-mode");
-      if (radioCategoryID === taskID) {
+      if (radioCategoryID) {
         loadTasks(radioCategoryID);
         $radioCategory.prop("checked");
       } else {
