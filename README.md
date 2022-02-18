@@ -4,7 +4,7 @@ This project is the midterm project for Lighthouse Labs' Web Development Bootcam
 
 ## Table of Contents
 
-- [Overview](#overview)
+- [Overview)[#overview]
   - [Project Goals](#project-goals)
   - [Screenshots](#screenshots)
 - [Process](#process)
@@ -38,6 +38,15 @@ Editing a task
 
 ![Editing a task](./docs/edit-tasks.gif)
 
+## Getting Started
+1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`.
+2. Update the .env file with your correct local information.
+4. Install all dependencies: `npm install`
+5. Fix to binaries for sass: `npm rebuild node-sass`
+6. Reset database: `npm run db:reset`
+7. Run the server: `npm run local`
+8. Visit: `http://localhost8080/login` 
+
 ## Process
 
 We first collaborated on planning out our app by visiting user stories. From that, the database schema, a wireframe, and routes were planned. It was decided that we could split the work into frontend and backend and we set out to get each part functioning separately.
@@ -65,6 +74,11 @@ We teamed up on a huge restyle to make the app look more modern and refine the u
 
 - Database deployed in the cloud
 - Login/Registration for new users
+
+### Dependencies
+- Node 10.x or above
+- NPM 5.x or above
+- PG 6.x
 
 ## Team
 
