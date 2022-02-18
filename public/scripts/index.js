@@ -120,7 +120,7 @@ $(() => {
       $taskDiv.removeClass("edit-mode");
       if (radioCategoryID) {
         loadTasks(radioCategoryID);
-        $radioCategory.prop("checked");
+        $radioCategory.prop("checked", true);
       } else {
         loadTasks();
         $("#radio-all").prop("checked", true);
