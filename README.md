@@ -47,7 +47,7 @@ Editing a task
 5. Fix to binaries for sass: `npm rebuild node-sass`
 6. Reset database: `npm run db:reset`
 7. Run the server: `npm run local`
-8. Visit: `http://localhost8080/login` 
+8. Visit: `http://localhost:8080/login` 
 
 ## Process
 
