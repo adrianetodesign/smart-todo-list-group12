@@ -4,7 +4,7 @@ This project is the midterm project for Lighthouse Labs' Web Development Bootcam
 
 ## Table of Contents
 
-- [Overview)[#overview]
+- [Overview](#overview)
   - [Project Goals](#project-goals)
   - [Screenshots](#screenshots)
 - [Process](#process)
